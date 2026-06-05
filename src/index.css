@@ -1,11 +1,26 @@
+/* ============================================
+   FRUTIGER AERO NEOCITY – DESIGN SYSTEM
+   LemonMantis5571's personal web space
+   ============================================ */
+
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Color tokens */
+  --aero-sky: #7fd6ff;
+  --aero-ocean: #4b97ff;
+  --aero-teal: #6bd2d0;
+  --aero-mint: #d9fff5;
+  --aero-deep: #0d4162;
+  --aero-mid: #134a70;
+  --aero-soft: #214d66;
+  --aero-glow: rgba(145, 230, 255, 0.55);
+  --glass-bg: rgba(255, 255, 255, 0.28);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-highlight: rgba(255, 255, 255, 0.7);
+
+  font-family: 'Outfit', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #123e60;
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.8), transparent 30%),
-    linear-gradient(180deg, #8ae9ff 0%, #5ab2ff 30%, #7fdcc9 68%, #d4fff5 100%);
+  color: var(--aero-deep);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -29,9 +44,21 @@ body {
     radial-gradient(circle at 84% 8%, rgba(255, 247, 181, 0.78), transparent 14%),
     radial-gradient(circle at 76% 26%, rgba(255, 163, 225, 0.32), transparent 16%),
     linear-gradient(180deg, #7fd6ff 0%, #4b97ff 30%, #6bd2d0 70%, #d9fff5 100%);
+  background-attachment: fixed;
 }
 
 body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(145, 230, 255, 0.1), transparent 35%);
+  z-index: 0;
+}
+
+body::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -41,6 +68,7 @@ body::before {
     radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.34), transparent 22%),
     radial-gradient(circle at 75% 12%, rgba(255, 255, 255, 0.28), transparent 18%);
   mix-blend-mode: screen;
+  z-index: 0;
 }
 
 a,
@@ -55,4 +83,28 @@ button {
 
 #root {
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(139, 218, 255, 0.7), rgba(75, 151, 255, 0.5));
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(75, 151, 255, 0.35);
+  color: #0d4162;
 }
