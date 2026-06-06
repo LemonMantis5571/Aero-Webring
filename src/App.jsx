@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 /* ── Pokémon sprites (PokeAPI CDN) ── */
@@ -26,10 +26,60 @@ const spriteStatic = (id) =>
 /* ── Navigation ── */
 const navLinks = [
   { label: 'About Me', href: '#about' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Pokédex', href: '#pokedex' },
   { label: 'Webring', href: '#webring' },
   { label: 'Guestbook', href: '#guestbook' },
   { label: 'Links', href: '#links' },
+]
+
+/* ── Projects from GitHub ── */
+const projects = [
+  {
+    name: 'PokeMMO-Utilities',
+    desc: 'PvP utilities for PokeMMO players',
+    url: 'https://github.com/LemonMantis5571/PokeMMO-Utilities',
+    live: 'https://poke-mmo-utilities.vercel.app/',
+    lang: 'TypeScript',
+    stars: 12,
+  },
+  {
+    name: 'A-mess Visual Novel',
+    desc: 'Visual Novel Project',
+    url: 'https://github.com/LemonMantis5571/A-mess-Visual-Novel-Project',
+    lang: 'Python',
+    stars: 5,
+  },
+  {
+    name: 'RO Card Simulator',
+    desc: 'Card gacha simulator for Ragnarok Online',
+    url: 'https://github.com/LemonMantis5571/Ragnarok-Online-Card-Simulator',
+    live: 'https://ragnarok-online-card-simulator-production-0bd5.up.railway.app',
+    lang: 'TypeScript',
+    stars: 0,
+  },
+  {
+    name: 'Git-AutoCommit',
+    desc: 'AI-powered conventional commit generator',
+    url: 'https://github.com/LemonMantis5571/Git-AutoCommit',
+    lang: 'TypeScript',
+    stars: 0,
+  },
+  {
+    name: 'Moodle-Skill',
+    desc: 'Moodle Skill for AI Agents',
+    url: 'https://github.com/LemonMantis5571/Moodle-Skill',
+    lang: 'Markdown',
+    stars: 1,
+  },
+  {
+    name: 'Coinbase Clone',
+    desc: 'Coinbase landing page clone',
+    url: 'https://github.com/LemonMantis5571/Coinbase-Clone-Updated',
+    live: 'https://crypto-currency-landingpage-clone.vercel.app/',
+    lang: 'HTML',
+    stars: 1,
+  },
 ]
 
 /* ── Webring members ── */
@@ -44,27 +94,94 @@ const webringMembers = [
 
 /* ── Friend links ── */
 const friendLinks = [
+  { name: 'GitHub', url: 'https://github.com/LemonMantis5571', icon: '🐙' },
   { name: 'Neocities', url: 'https://neocities.org/', icon: '🏠' },
   { name: 'Nekoweb', url: 'https://nekoweb.org/', icon: '🐱' },
   { name: 'Frutiger Aero Archive', url: 'https://frutigeraeroarchive.org/', icon: '🌿' },
   { name: 'MelonLand Forum', url: 'https://forum.melonland.net/', icon: '🍈' },
   { name: 'PokeAPI', url: 'https://pokeapi.co/', icon: '⚡' },
-  { name: '7.css', url: 'https://khang-nd.github.io/7.css/', icon: '🪟' },
 ]
 
 /* ── Guestbook storage key ── */
 const GUESTBOOK_KEY = 'lemonmantis-guestbook'
 
-/* ── Walking NPC Touhou characters ── */
-function WalkingNPCs() {
+/* ── Language color map ── */
+const langColors = {
+  TypeScript: '#3178c6',
+  Python: '#3572a5',
+  HTML: '#e34c26',
+  Java: '#b07219',
+  Markdown: '#083fa1',
+}
+
+/* ── Walking NPC that scrolls the page ── */
+function useNpcWalker(speed = 1.2) {
+  const npcRef = useRef(null)
+  const posRef = useRef({ x: -120, y: 0 })
+  const targetRef = useRef({ x: 200, y: 300 })
+  const frameRef = useRef(0)
+  const facingRef = useRef(1) // 1 = right, -1 = left
+
+  useEffect(() => {
+    const pickTarget = () => {
+      const pageH = document.documentElement.scrollHeight
+      const vpW = window.innerWidth
+      return {
+        x: 40 + Math.random() * (vpW - 160),
+        y: 100 + Math.random() * (pageH - 300),
+      }
+    }
+
+    targetRef.current = pickTarget()
+
+    const animate = () => {
+      const pos = posRef.current
+      const target = targetRef.current
+      const dx = target.x - pos.x
+      const dy = target.y - pos.y
+      const dist = Math.sqrt(dx * dx + dy * dy)
+
+      if (dist < 10) {
+        targetRef.current = pickTarget()
+      } else {
+        const moveX = (dx / dist) * speed
+        const moveY = (dy / dist) * speed
+        pos.x += moveX
+        pos.y += moveY
+
+        if (moveX > 0.1) facingRef.current = 1
+        else if (moveX < -0.1) facingRef.current = -1
+      }
+
+      if (npcRef.current) {
+        npcRef.current.style.transform = `translate(${pos.x}px, ${pos.y}px) scaleX(${facingRef.current})`
+      }
+
+      frameRef.current = requestAnimationFrame(animate)
+    }
+
+    frameRef.current = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(frameRef.current)
+  }, [speed])
+
+  return npcRef
+}
+
+function WalkingNPC({ src, speed = 1.2, startX = -120, startY = 200 }) {
+  const npcRef = useNpcWalker(speed)
+  const posRef = useRef({ x: startX, y: startY })
+
+  useEffect(() => {
+    if (npcRef.current) {
+      // Initialize posRef used by the walker
+      const walker = npcRef.current
+      walker.style.transform = `translate(${startX}px, ${startY}px)`
+    }
+  }, [startX, startY])
+
   return (
-    <div className="npc-layer" aria-hidden="true">
-      <div className="npc npc-byakuren">
-        <img src="/byakuren.gif" alt="" className="npc-sprite" />
-      </div>
-      <div className="npc npc-mokou">
-        <img src="/mokou.gif" alt="" className="npc-sprite" />
-      </div>
+    <div ref={npcRef} className="npc" aria-hidden="true">
+      <img src={src} alt="" className="npc-sprite" />
     </div>
   )
 }
@@ -138,7 +255,12 @@ function App() {
   return (
     <div className="aero-shell">
       <Bubbles />
-      <WalkingNPCs />
+
+      {/* Walking NPCs — roam the entire page vertically */}
+      <div className="npc-layer" aria-hidden="true">
+        <WalkingNPC src="/byakuren.gif" speed={1.0} startX={-120} startY={300} />
+        <WalkingNPC src="/mokou.gif" speed={1.4} startX={800} startY={600} />
+      </div>
 
       {/* ── Top Bar ── */}
       <header className="topbar">
@@ -164,7 +286,7 @@ function App() {
         <section className="window hero-window glass active" aria-labelledby="hero-title">
           <div className="title-bar">
             <div className="title-bar-text" id="hero-title">
-              🌿 welcome.exe — LemonMantis5571
+              🌿 welcome.exe — Leonel Guerrero
             </div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
@@ -175,10 +297,11 @@ function App() {
           <div className="window-body hero-body">
             <div className="hero-copy">
               <h1>Welcome to my site!</h1>
+              <p className="hero-subtitle">Web Artisan · ES | EN | KR | CN</p>
 
               <div className="hero-actions">
-                <a className="push-button aero-btn" href="#pokedex">
-                  My Pokédex
+                <a className="push-button aero-btn" href="#projects">
+                  My Projects
                 </a>
                 <a className="push-button aero-btn alt" href="#guestbook">
                   Sign Guestbook
@@ -221,19 +344,33 @@ function App() {
             <div className="window-body about-body">
               <div className="about-avatar-section">
                 <div className="avatar-frame">
-                  <img src={spriteUrl(620)} alt="Mienshao" className="avatar-sprite" />
+                  <img
+                    src="https://avatars.githubusercontent.com/u/85099589?v=4"
+                    alt="Leonel Guerrero"
+                    className="avatar-github"
+                  />
                 </div>
-                <h2 className="about-username">LemonMantis5571</h2>
+                <h2 className="about-username">Leonel Guerrero</h2>
+                <p className="about-handle">@LemonMantis5571</p>
                 <div className="about-badges">
                   <span className="about-badge">🎮 Gamer</span>
                   <span className="about-badge">⚡ Pokémon Trainer</span>
+                  <span className="about-badge">🌐 Web Artisan</span>
                 </div>
               </div>
               <div className="about-text">
                 <p>Hey! Welcome to my site.</p>
                 <div className="field-row about-field">
+                  <label>Languages:</label>
+                  <span>ES | EN | KR | CN</span>
+                </div>
+                <div className="field-row about-field">
                   <label>Favorite Pokémon:</label>
                   <span>Mienshao, Suicune</span>
+                </div>
+                <div className="field-row about-field">
+                  <label>Repos:</label>
+                  <span>57 public repositories</span>
                 </div>
                 <div className="about-fav-sprites">
                   <img src={spriteUrl(620)} alt="Mienshao" className="fav-sprite" />
@@ -274,6 +411,68 @@ function App() {
           </article>
         </section>
 
+        {/* ── Projects from GitHub ── */}
+        <section className="window projects-window glass" id="projects">
+          <div className="title-bar">
+            <div className="title-bar-text">💻 github_projects.exe — Top Repos</div>
+            <div className="title-bar-controls" aria-hidden="true">
+              <button type="button" tabIndex="-1" aria-label="Minimize" />
+              <button type="button" tabIndex="-1" aria-label="Maximize" />
+              <button type="button" tabIndex="-1" aria-label="Close" />
+            </div>
+          </div>
+          <div className="window-body">
+            <div className="projects-grid">
+              {projects.map((proj) => (
+                <a
+                  key={proj.name}
+                  className="project-card"
+                  href={proj.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <div className="project-header">
+                    <strong className="project-name">📁 {proj.name}</strong>
+                    {proj.stars > 0 && (
+                      <span className="project-stars">⭐ {proj.stars}</span>
+                    )}
+                  </div>
+                  <p className="project-desc">{proj.desc}</p>
+                  <div className="project-footer">
+                    <span
+                      className="project-lang"
+                      style={{ '--lang-color': langColors[proj.lang] || '#666' }}
+                    >
+                      <span className="lang-dot" />
+                      {proj.lang}
+                    </span>
+                    {proj.live && (
+                      <span className="project-live">🌐 Live</span>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+            <div className="projects-cta">
+              <a
+                href="https://github.com/LemonMantis5571"
+                target="_blank"
+                rel="noreferrer"
+                className="push-button aero-btn"
+              >
+                View all 57 repos on GitHub →
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Japanese-style ticker 2 ── */}
+        <div className="jp-ticker jp-ticker-reverse">
+          <div className="jp-ticker-inner">
+            <span>♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪</span>
+          </div>
+        </div>
+
         {/* ── Pokédex ── */}
         <section className="window pokedex-window glass" id="pokedex">
           <div className="title-bar">
@@ -293,14 +492,7 @@ function App() {
           </div>
         </section>
 
-        {/* ── Japanese-style ticker 2 ── */}
-        <div className="jp-ticker jp-ticker-reverse">
-          <div className="jp-ticker-inner">
-            <span>♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪</span>
-          </div>
-        </div>
-
-        {/* ── Webring ── */}
+        {/* ── Webring + Links ── */}
         <section className="grid-panels" id="webring">
           <article className="window panel-window glass">
             <div className="title-bar">
@@ -339,7 +531,6 @@ function App() {
             </div>
           </article>
 
-          {/* ── Links ── */}
           <article className="window panel-window glass">
             <div className="title-bar">
               <div className="title-bar-text">🔗 links.ini — Cool Sites</div>
@@ -430,7 +621,7 @@ function App() {
             <img src={spriteUrl(25)} alt="" className="footer-sprite" />
           </div>
           <p>
-            © {new Date().getFullYear()} LemonMantis5571 — Made with{' '}
+            © {new Date().getFullYear()} Leonel Guerrero — Made with{' '}
             <a href="https://khang-nd.github.io/7.css/" target="_blank" rel="noreferrer">7.css</a>
           </p>
           <div className="jp-ticker jp-ticker-footer">

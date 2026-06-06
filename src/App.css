@@ -53,115 +53,23 @@
 
 /* ── Walking NPC Touhou Characters ── */
 .npc-layer {
-  position: fixed;
+  position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 100;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .npc {
   position: absolute;
-  bottom: 20px;
+  will-change: transform;
+  transition: none;
 }
 
 .npc-sprite {
   max-height: 100px;
   image-rendering: auto;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
-}
-
-/* Byakuren walks left-to-right */
-.npc-byakuren {
-  animation: npc-walk-lr 28s linear infinite;
-}
-
-/* Mokou walks right-to-left */
-.npc-mokou {
-  animation: npc-walk-rl 22s linear infinite;
-  animation-delay: 5s;
-  bottom: 60px;
-}
-
-.npc-mokou .npc-sprite {
-  transform: scaleX(-1);
-}
-
-@keyframes npc-walk-lr {
-  0% {
-    left: -140px;
-    bottom: 20px;
-  }
-  15% {
-    bottom: 28px;
-  }
-  25% {
-    bottom: 20px;
-  }
-  35% {
-    bottom: 26px;
-  }
-  50% {
-    bottom: 20px;
-    left: calc(50% - 60px);
-  }
-  52% {
-    /* pause */
-    left: calc(50% - 60px);
-  }
-  65% {
-    bottom: 28px;
-  }
-  75% {
-    bottom: 20px;
-  }
-  85% {
-    bottom: 26px;
-  }
-  100% {
-    left: calc(100% + 140px);
-    bottom: 20px;
-  }
-}
-
-@keyframes npc-walk-rl {
-  0% {
-    right: -140px;
-    left: auto;
-    bottom: 60px;
-  }
-  15% {
-    bottom: 68px;
-  }
-  25% {
-    bottom: 60px;
-  }
-  35% {
-    bottom: 66px;
-  }
-  50% {
-    bottom: 60px;
-    right: calc(50% - 60px);
-    left: auto;
-  }
-  52% {
-    right: calc(50% - 60px);
-    left: auto;
-  }
-  65% {
-    bottom: 68px;
-  }
-  75% {
-    bottom: 60px;
-  }
-  85% {
-    bottom: 66px;
-  }
-  100% {
-    right: calc(100% + 140px);
-    left: auto;
-    bottom: 60px;
-  }
 }
 
 /* ── Japanese-style Ticker ── */
@@ -227,6 +135,28 @@
   border-radius: 999px;
 }
 
+/* ── GitHub Avatar ── */
+.avatar-github {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.about-handle {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #4a7a94;
+  font-weight: 500;
+}
+
+.hero-subtitle {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  color: #4a7a94;
+  font-weight: 500;
+}
+
 /* ── Fav Sprites in About ── */
 .about-fav-sprites {
   display: flex;
@@ -243,6 +173,106 @@
 
 .fav-sprite-large {
   height: 72px;
+}
+
+/* ── Projects Window ── */
+.projects-window .window-body {
+  padding: 22px;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #0d4162;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(229, 250, 255, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 8px 20px rgba(40, 111, 163, 0.1);
+  transition: all 250ms ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 14px 32px rgba(40, 111, 163, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(206, 244, 255, 0.45));
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0d4162;
+}
+
+.project-stars {
+  font-size: 0.78rem;
+  color: #b8860b;
+  font-weight: 600;
+}
+
+.project-desc {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #214d66;
+  line-height: 1.5;
+}
+
+.project-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.project-lang {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4a7a94;
+}
+
+.lang-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lang-color, #666);
+}
+
+.project-live {
+  font-size: 0.74rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(45, 184, 126, 0.2);
+  color: #1a7a52;
+  font-weight: 600;
+}
+
+.projects-cta {
+  text-align: center;
+  padding-top: 8px;
 }
 
 /* ── Footer sprite sizing ── */
