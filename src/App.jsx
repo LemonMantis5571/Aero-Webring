@@ -3,6 +3,8 @@ import './App.css'
 
 /* ── Pokémon sprites (PokeAPI CDN) ── */
 const pokemonTeam = [
+  { name: 'Mienshao', id: 620 },
+  { name: 'Suicune', id: 245 },
   { name: 'Pikachu', id: 25 },
   { name: 'Eevee', id: 133 },
   { name: 'Charmander', id: 4 },
@@ -13,8 +15,6 @@ const pokemonTeam = [
   { name: 'Umbreon', id: 197 },
   { name: 'Gardevoir', id: 282 },
   { name: 'Lucario', id: 448 },
-  { name: 'Flygon', id: 330 },
-  { name: 'Milotic', id: 350 },
 ]
 
 const spriteUrl = (id) =>
@@ -27,7 +27,6 @@ const spriteStatic = (id) =>
 const navLinks = [
   { label: 'About Me', href: '#about' },
   { label: 'Pokédex', href: '#pokedex' },
-  { label: 'Gallery', href: '#gallery' },
   { label: 'Webring', href: '#webring' },
   { label: 'Guestbook', href: '#guestbook' },
   { label: 'Links', href: '#links' },
@@ -53,17 +52,22 @@ const friendLinks = [
   { name: '7.css', url: 'https://khang-nd.github.io/7.css/', icon: '🪟' },
 ]
 
-/* ── Gallery wallpapers ── */
-const galleryImages = [
-  { src: 'https://wallpapercave.com/wp/wp13908387.png', label: 'Bubbles' },
-  { src: 'https://wallpapercave.com/wp/wp13908399.png', label: 'Nature Glass' },
-  { src: 'https://wallpapercave.com/wp/wp13908393.png', label: 'Vista' },
-  { src: 'https://wallpapercave.com/wp/wp13908395.png', label: 'Meadow' },
-  { src: 'https://wallpapercave.com/wp/wp13908401.png', label: 'Sky' },
-]
-
 /* ── Guestbook storage key ── */
 const GUESTBOOK_KEY = 'lemonmantis-guestbook'
+
+/* ── Walking NPC Touhou characters ── */
+function WalkingNPCs() {
+  return (
+    <div className="npc-layer" aria-hidden="true">
+      <div className="npc npc-byakuren">
+        <img src="/byakuren.gif" alt="" className="npc-sprite" />
+      </div>
+      <div className="npc npc-mokou">
+        <img src="/mokou.gif" alt="" className="npc-sprite" />
+      </div>
+    </div>
+  )
+}
 
 /* ── Bubble decorations ── */
 function Bubbles() {
@@ -112,12 +116,10 @@ function App() {
     return () => clearInterval(timer)
   }, [])
 
-  /* ── Save guestbook to localStorage whenever it changes ── */
   useEffect(() => {
     localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(guestEntries))
   }, [guestEntries])
 
-  /* ── Submit guestbook entry ── */
   const handleGuestSubmit = (e) => {
     e.preventDefault()
     if (!guestMessage.trim() || !guestName.trim()) return
@@ -136,14 +138,7 @@ function App() {
   return (
     <div className="aero-shell">
       <Bubbles />
-
-      {/* Decorative GIFs scattered around */}
-      <div className="deco-gifs" aria-hidden="true">
-        <img src="/byakuren.gif" alt="" className="deco-gif deco-gif-1" />
-        <img src="/mokou.gif" alt="" className="deco-gif deco-gif-2" />
-        <img src="/byakuren.gif" alt="" className="deco-gif deco-gif-3" />
-        <img src="/mokou.gif" alt="" className="deco-gif deco-gif-4" />
-      </div>
+      <WalkingNPCs />
 
       {/* ── Top Bar ── */}
       <header className="topbar">
@@ -181,11 +176,6 @@ function App() {
             <div className="hero-copy">
               <h1>Welcome to my site!</h1>
 
-              <div className="hero-gifs">
-                <img src="/byakuren.gif" alt="Byakuren" className="hero-gif" />
-                <img src="/mokou.gif" alt="Mokou" className="hero-gif" />
-              </div>
-
               <div className="hero-actions">
                 <a className="push-button aero-btn" href="#pokedex">
                   My Pokédex
@@ -194,20 +184,13 @@ function App() {
                   Sign Guestbook
                 </a>
               </div>
-
-              <div className="badge-row" aria-label="Interests">
-                <span>🌊 Touhou</span>
-                <span>⚡ Pokémon</span>
-                <span>🎮 Games</span>
-                <span>🎵 Music</span>
-              </div>
             </div>
 
             <div className="hero-visual" aria-hidden="true">
               <div className="pokemon-showcase">
-                <img src={spriteUrl(25)} alt="" className="showcase-sprite bounce-1" />
-                <img src={spriteUrl(133)} alt="" className="showcase-sprite bounce-2" />
-                <img src={spriteUrl(4)} alt="" className="showcase-sprite bounce-3" />
+                <img src={spriteUrl(620)} alt="" className="showcase-sprite bounce-1" />
+                <img src={spriteUrl(245)} alt="" className="showcase-sprite bounce-2 showcase-large" />
+                <img src={spriteUrl(25)} alt="" className="showcase-sprite bounce-3" />
               </div>
             </div>
           </div>
@@ -216,6 +199,13 @@ function App() {
             <p className="status-bar-field">🎵 Now playing: something cool</p>
           </div>
         </section>
+
+        {/* ── Japanese-style marquee ticker ── */}
+        <div className="jp-ticker">
+          <div className="jp-ticker-inner">
+            <span>★ ようこそ！ ★ Welcome! ★ LemonMantis5571 ★ ポケモン ★ 東方 ★ ゲーム ★ 音楽 ★ ようこそ！ ★ Welcome! ★ LemonMantis5571 ★ ポケモン ★ 東方 ★ ゲーム ★ 音楽 ★</span>
+          </div>
+        </div>
 
         {/* ── About Me ── */}
         <section className="grid-panels" id="about">
@@ -231,7 +221,7 @@ function App() {
             <div className="window-body about-body">
               <div className="about-avatar-section">
                 <div className="avatar-frame">
-                  <img src={spriteUrl(197)} alt="Umbreon" className="avatar-sprite" />
+                  <img src={spriteUrl(620)} alt="Mienshao" className="avatar-sprite" />
                 </div>
                 <h2 className="about-username">LemonMantis5571</h2>
                 <div className="about-badges">
@@ -243,9 +233,12 @@ function App() {
                 <p>Hey! Welcome to my site.</p>
                 <div className="field-row about-field">
                   <label>Favorite Pokémon:</label>
-                  <span>Umbreon, Gardevoir, Flygon</span>
+                  <span>Mienshao, Suicune</span>
                 </div>
-                <img src="/byakuren.gif" alt="Byakuren" className="about-gif" />
+                <div className="about-fav-sprites">
+                  <img src={spriteUrl(620)} alt="Mienshao" className="fav-sprite" />
+                  <img src={spriteUrl(245)} alt="Suicune" className="fav-sprite fav-sprite-large" />
+                </div>
               </div>
             </div>
           </article>
@@ -277,9 +270,6 @@ function App() {
                   <button className="music-btn" type="button">⏭</button>
                 </div>
               </div>
-              <div className="panel-gif-container">
-                <img src="/mokou.gif" alt="Mokou" className="panel-gif" />
-              </div>
             </div>
           </article>
         </section>
@@ -303,35 +293,12 @@ function App() {
           </div>
         </section>
 
-        {/* ── Gallery ── */}
-        <section className="window gallery-window glass" id="gallery">
-          <div className="title-bar">
-            <div className="title-bar-text">🖼️ gallery.bmp — Wallpapers</div>
-            <div className="title-bar-controls" aria-hidden="true">
-              <button type="button" tabIndex="-1" aria-label="Minimize" />
-              <button type="button" tabIndex="-1" aria-label="Maximize" />
-              <button type="button" tabIndex="-1" aria-label="Close" />
-            </div>
+        {/* ── Japanese-style ticker 2 ── */}
+        <div className="jp-ticker jp-ticker-reverse">
+          <div className="jp-ticker-inner">
+            <span>♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪</span>
           </div>
-          <div className="window-body">
-            <div className="gallery-grid">
-              {galleryImages.map((img, i) => (
-                <a
-                  key={i}
-                  className={`gallery-card ${i === 0 ? 'main-card' : ''}`}
-                  href={img.src}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={img.src} alt={img.label} className="gallery-img" loading="lazy" />
-                  <div className="gallery-overlay">
-                    <span>{img.label}</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+        </div>
 
         {/* ── Webring ── */}
         <section className="grid-panels" id="webring">
@@ -391,14 +358,11 @@ function App() {
                   </a>
                 ))}
               </div>
-              <div className="panel-gif-container">
-                <img src="/byakuren.gif" alt="Byakuren" className="panel-gif" />
-              </div>
             </div>
           </article>
         </section>
 
-        {/* ── Guestbook (Functional — JSONBin backend) ── */}
+        {/* ── Guestbook ── */}
         <section className="window guestbook-window glass" id="guestbook">
           <div className="title-bar">
             <div className="title-bar-text">📝 guestbook.exe — Sign My Guestbook!</div>
@@ -461,19 +425,17 @@ function App() {
         {/* ── Footer ── */}
         <footer className="site-footer">
           <div className="footer-sprites" aria-hidden="true">
+            <img src={spriteUrl(620)} alt="" className="footer-sprite" />
+            <img src={spriteUrl(245)} alt="" className="footer-sprite footer-sprite-large" />
             <img src={spriteUrl(25)} alt="" className="footer-sprite" />
-            <img src="/mokou.gif" alt="" className="footer-gif" />
-            <img src={spriteUrl(133)} alt="" className="footer-sprite" />
-            <img src="/byakuren.gif" alt="" className="footer-gif" />
-            <img src={spriteUrl(1)} alt="" className="footer-sprite" />
           </div>
           <p>
             © {new Date().getFullYear()} LemonMantis5571 — Made with{' '}
             <a href="https://khang-nd.github.io/7.css/" target="_blank" rel="noreferrer">7.css</a>
           </p>
-          <div className="footer-marquee">
-            <div className="marquee-inner">
-              ✨ Welcome to my site ✨ Thanks for visiting ✨ Sign the guestbook! ✨ Welcome to my site ✨ Thanks for visiting ✨ Sign the guestbook! ✨
+          <div className="jp-ticker jp-ticker-footer">
+            <div className="jp-ticker-inner">
+              <span>✿ ありがとう！ ✿ Thanks for visiting! ✿ サインしてね！ ✿ Sign the guestbook! ✿ ありがとう！ ✿ Thanks for visiting! ✿ サインしてね！ ✿ Sign the guestbook! ✿</span>
             </div>
           </div>
         </footer>

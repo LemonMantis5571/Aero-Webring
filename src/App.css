@@ -51,68 +51,204 @@
   }
 }
 
-/* ── Decorative GIFs scattered around page ── */
-.deco-gifs {
+/* ── Walking NPC Touhou Characters ── */
+.npc-layer {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 2;
+  z-index: 100;
+  overflow: hidden;
 }
 
-.deco-gif {
+.npc {
   position: absolute;
-  opacity: 0.18;
-  filter: drop-shadow(0 0 16px rgba(145, 230, 255, 0.4));
-  animation: gif-float 6s ease-in-out infinite;
-  max-width: 120px;
+  bottom: 20px;
 }
 
-.deco-gif-1 { left: 2%; top: 12%; animation-delay: 0s; }
-.deco-gif-2 { right: 2%; top: 6%; animation-delay: 1.5s; }
-.deco-gif-3 { right: 3%; bottom: 20%; animation-delay: 3s; }
-.deco-gif-4 { left: 3%; bottom: 8%; animation-delay: 2s; }
-
-@keyframes gif-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
-}
-
-/* ── GIFs inside panels ── */
-.hero-gifs {
-  display: flex;
-  gap: 14px;
-  margin: 16px 0;
-}
-
-.hero-gif {
+.npc-sprite {
   max-height: 100px;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 16px rgba(24, 91, 149, 0.15);
+  image-rendering: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
 }
 
-.about-gif {
-  max-height: 80px;
-  border-radius: 8px;
+/* Byakuren walks left-to-right */
+.npc-byakuren {
+  animation: npc-walk-lr 28s linear infinite;
+}
+
+/* Mokou walks right-to-left */
+.npc-mokou {
+  animation: npc-walk-rl 22s linear infinite;
+  animation-delay: 5s;
+  bottom: 60px;
+}
+
+.npc-mokou .npc-sprite {
+  transform: scaleX(-1);
+}
+
+@keyframes npc-walk-lr {
+  0% {
+    left: -140px;
+    bottom: 20px;
+  }
+  15% {
+    bottom: 28px;
+  }
+  25% {
+    bottom: 20px;
+  }
+  35% {
+    bottom: 26px;
+  }
+  50% {
+    bottom: 20px;
+    left: calc(50% - 60px);
+  }
+  52% {
+    /* pause */
+    left: calc(50% - 60px);
+  }
+  65% {
+    bottom: 28px;
+  }
+  75% {
+    bottom: 20px;
+  }
+  85% {
+    bottom: 26px;
+  }
+  100% {
+    left: calc(100% + 140px);
+    bottom: 20px;
+  }
+}
+
+@keyframes npc-walk-rl {
+  0% {
+    right: -140px;
+    left: auto;
+    bottom: 60px;
+  }
+  15% {
+    bottom: 68px;
+  }
+  25% {
+    bottom: 60px;
+  }
+  35% {
+    bottom: 66px;
+  }
+  50% {
+    bottom: 60px;
+    right: calc(50% - 60px);
+    left: auto;
+  }
+  52% {
+    right: calc(50% - 60px);
+    left: auto;
+  }
+  65% {
+    bottom: 68px;
+  }
+  75% {
+    bottom: 60px;
+  }
+  85% {
+    bottom: 66px;
+  }
+  100% {
+    right: calc(100% + 140px);
+    left: auto;
+    bottom: 60px;
+  }
+}
+
+/* ── Japanese-style Ticker ── */
+.jp-ticker {
+  margin: 12px auto;
+  width: min(1200px, 100%);
+  overflow: hidden;
+  padding: 8px 0;
+  background:
+    linear-gradient(90deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.3) 10%,
+      rgba(255, 255, 255, 0.3) 90%,
+      rgba(255, 255, 255, 0.1));
+  border-top: 2px solid rgba(255, 200, 220, 0.5);
+  border-bottom: 2px solid rgba(255, 200, 220, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 5;
+}
+
+.jp-ticker-inner {
+  display: inline-block;
+  white-space: nowrap;
+  animation: jp-scroll 18s linear infinite;
+}
+
+.jp-ticker-reverse .jp-ticker-inner {
+  animation: jp-scroll-reverse 20s linear infinite;
+}
+
+.jp-ticker-inner span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #3a1a5e;
+  letter-spacing: 0.06em;
+  background: linear-gradient(90deg, #d14b8f, #6a3de8, #3a9bd5, #d14b8f);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: ticker-gradient 6s ease infinite;
+}
+
+@keyframes jp-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes jp-scroll-reverse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes ticker-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.jp-ticker-footer {
+  margin: 16px 0 0;
+  border-radius: 999px;
+}
+
+/* ── Fav Sprites in About ── */
+.about-fav-sprites {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
   margin-top: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-.panel-gif-container {
-  text-align: center;
-  margin-top: 14px;
+.fav-sprite {
+  image-rendering: pixelated;
+  height: 56px;
+  filter: drop-shadow(0 2px 8px rgba(75, 141, 255, 0.25));
 }
 
-.panel-gif {
-  max-height: 90px;
-  border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(24, 91, 149, 0.12);
+.fav-sprite-large {
+  height: 72px;
 }
 
-.footer-gif {
-  max-height: 40px;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+/* ── Footer sprite sizing ── */
+.footer-sprite-large {
+  width: 56px !important;
+  height: 56px !important;
 }
 
 /* ── Top Bar ── */
@@ -742,91 +878,7 @@
   box-shadow: 0 8px 24px rgba(24, 91, 149, 0.15);
 }
 
-/* ── Gallery Window ── */
-.gallery-window .window-body {
-  padding: 22px;
-}
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 14px;
-}
-
-.gallery-card {
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 8px 20px rgba(24, 91, 149, 0.12);
-  cursor: pointer;
-  transition: all 250ms ease;
-}
-
-.gallery-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(24, 91, 149, 0.2);
-}
-
-.gallery-card.main-card {
-  grid-column: span 2;
-}
-
-.gallery-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  min-height: 160px;
-}
-
-.main-card .gallery-img {
-  min-height: 260px;
-  max-height: 340px;
-}
-
-.gallery-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 14px 18px;
-  background: linear-gradient(transparent, rgba(13, 65, 98, 0.7));
-  color: white;
-  font-weight: 600;
-  font-size: 0.92rem;
-}
-
-.gallery-gradient {
-  min-height: 160px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-}
-
-.gallery-label {
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.82rem;
-  color: white;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.gradient-1 {
-  background: linear-gradient(135deg, #ff9a9e, #fecfef, #fdfbfb);
-}
-
-.gradient-2 {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-}
-
-.gradient-3 {
-  background: linear-gradient(135deg, #a8edea, #fed6e3);
-}
 
 /* ── Webring ── */
 .webring-grid {
@@ -1071,35 +1123,6 @@
   text-decoration: underline;
 }
 
-.footer-sub {
-  font-size: 0.78rem;
-  color: #4a7a94;
-  margin-bottom: 16px !important;
-}
-
-/* ── Footer Marquee ── */
-.footer-marquee {
-  overflow: hidden;
-  padding: 8px 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-}
-
-.marquee-inner {
-  display: inline-block;
-  white-space: nowrap;
-  font-size: 0.78rem;
-  color: #0f5474;
-  font-weight: 500;
-  animation: marquee-scroll 20s linear infinite;
-}
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
 /* ── Status Bar ── */
 .status-bar {
   border-top: 1px solid rgba(255, 255, 255, 0.3);
@@ -1125,16 +1148,8 @@
     text-align: center;
   }
 
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery-card.main-card {
-    grid-column: span 1;
-  }
-
-  .deco-gif {
-    display: none;
+  .npc-sprite {
+    max-height: 70px;
   }
 }
 
@@ -1183,5 +1198,9 @@
 
   .webring-nav {
     flex-direction: column;
+  }
+
+  .npc-sprite {
+    max-height: 50px;
   }
 }
