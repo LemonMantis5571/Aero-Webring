@@ -111,13 +111,57 @@ const langColors = {
   Markdown: '#083fa1',
 }
 
-/* ── Walking NPC that scrolls the page ── */
-function useNpcWalker(speed = 1.2) {
-  const npcRef = useRef(null)
-  const posRef = useRef({ x: -120, y: 0 })
-  const targetRef = useRef({ x: 200, y: 300 })
+/* ── NPC Conversation Lines ── */
+const npcDialogues = {
+  solo: {
+    byakuren: [
+      '南無三…',
+      'The Dharma guides all ✨',
+      'Have you seen Murasa?',
+      'Peace be with you~',
+      '般若心経…',
+      'I sense great energy here!',
+      'What a lovely website 🌸',
+    ],
+    mokou: [
+      '…immortality is boring.',
+      '🔥🔥🔥',
+      'Kaguya can go away.',
+      'Anyone got yakitori?',
+      'ずっと生きてる…',
+      '*smokes*',
+      'Nice page, kid.',
+    ],
+  },
+  conversation: [
+    { a: 'Hey Mokou, nice day huh?', b: '…I guess. Every day is the same for me.' },
+    { a: 'Want to grab ramen later?', b: 'Only if you\'re paying, monk.' },
+    { a: 'You should visit the temple!', b: 'I\'d burn it down by accident.' },
+    { a: 'Mokou, are you okay?', b: '…define okay. I\'ve been alive 1000+ years.' },
+    { a: 'The Pokémon here are cute~', b: 'Mienshao could beat Kaguya.' },
+    { a: 'BLACKPINK in your area! 🩷', b: '…did you just quote a K-pop song?' },
+    { a: 'Let\'s protect this webring!', b: 'Fine. But I get to be the firewall. 🔥' },
+    { a: 'Do you like this music?', b: 'Takeshi Abo slaps, not gonna lie.' },
+  ],
+}
+
+/* ── Walking NPCs with conversation system ── */
+function NpcLayer() {
+  const npc1Ref = useRef(null)
+  const npc2Ref = useRef(null)
+  const pos1 = useRef({ x: -120, y: 300 })
+  const pos2 = useRef({ x: 800, y: 600 })
+  const target1 = useRef({ x: 200, y: 400 })
+  const target2 = useRef({ x: 400, y: 200 })
+  const facing1 = useRef(1)
+  const facing2 = useRef(-1)
   const frameRef = useRef(0)
-  const facingRef = useRef(1) // 1 = right, -1 = left
+
+  const [bubble1, setBubble1] = useState(null)
+  const [bubble2, setBubble2] = useState(null)
+  const chatCooldown = useRef(0)
+  const soloCooldown1 = useRef(0)
+  const soloCooldown2 = useRef(0)
 
   useEffect(() => {
     const pickTarget = () => {
@@ -129,29 +173,84 @@ function useNpcWalker(speed = 1.2) {
       }
     }
 
-    targetRef.current = pickTarget()
+    target1.current = pickTarget()
+    target2.current = pickTarget()
+
+    let ticks = 0
 
     const animate = () => {
-      const pos = posRef.current
-      const target = targetRef.current
-      const dx = target.x - pos.x
-      const dy = target.y - pos.y
-      const dist = Math.sqrt(dx * dx + dy * dy)
+      ticks++
 
-      if (dist < 10) {
-        targetRef.current = pickTarget()
-      } else {
-        const moveX = (dx / dist) * speed
-        const moveY = (dy / dist) * speed
-        pos.x += moveX
-        pos.y += moveY
-
-        if (moveX > 0.1) facingRef.current = 1
-        else if (moveX < -0.1) facingRef.current = -1
+      // Move NPC 1
+      const p1 = pos1.current
+      const t1 = target1.current
+      let dx1 = t1.x - p1.x
+      let dy1 = t1.y - p1.y
+      let dist1 = Math.sqrt(dx1 * dx1 + dy1 * dy1)
+      if (dist1 < 10) { target1.current = pickTarget() }
+      else {
+        const mx1 = (dx1 / dist1) * 1.0
+        const my1 = (dy1 / dist1) * 1.0
+        p1.x += mx1; p1.y += my1
+        if (mx1 > 0.1) facing1.current = 1
+        else if (mx1 < -0.1) facing1.current = -1
       }
 
-      if (npcRef.current) {
-        npcRef.current.style.transform = `translate(${pos.x}px, ${pos.y}px) scaleX(${facingRef.current})`
+      // Move NPC 2
+      const p2 = pos2.current
+      const t2 = target2.current
+      let dx2 = t2.x - p2.x
+      let dy2 = t2.y - p2.y
+      let dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2)
+      if (dist2 < 10) { target2.current = pickTarget() }
+      else {
+        const mx2 = (dx2 / dist2) * 1.4
+        const my2 = (dy2 / dist2) * 1.4
+        p2.x += mx2; p2.y += my2
+        if (mx2 > 0.1) facing2.current = 1
+        else if (mx2 < -0.1) facing2.current = -1
+      }
+
+      // Apply transforms
+      if (npc1Ref.current) {
+        npc1Ref.current.style.transform = `translate(${p1.x}px, ${p1.y}px) scaleX(${facing1.current})`
+      }
+      if (npc2Ref.current) {
+        npc2Ref.current.style.transform = `translate(${p2.x}px, ${p2.y}px) scaleX(${facing2.current})`
+      }
+
+      // Check proximity for conversation (every 60 frames)
+      if (ticks % 60 === 0) {
+        chatCooldown.current = Math.max(0, chatCooldown.current - 1)
+        soloCooldown1.current = Math.max(0, soloCooldown1.current - 1)
+        soloCooldown2.current = Math.max(0, soloCooldown2.current - 1)
+
+        const cdx = p1.x - p2.x
+        const cdy = p1.y - p2.y
+        const closeness = Math.sqrt(cdx * cdx + cdy * cdy)
+
+        if (closeness < 250 && chatCooldown.current <= 0 && Math.random() < 0.45) {
+          // Conversation!
+          const convo = npcDialogues.conversation[Math.floor(Math.random() * npcDialogues.conversation.length)]
+          setBubble1(convo.a)
+          setTimeout(() => setBubble2(convo.b), 1200)
+          setTimeout(() => { setBubble1(null); setBubble2(null) }, 5000)
+          chatCooldown.current = 12 // cooldown in ~12 seconds
+        } else {
+          // Solo chatter
+          if (soloCooldown1.current <= 0 && Math.random() < 0.08) {
+            const lines = npcDialogues.solo.byakuren
+            setBubble1(lines[Math.floor(Math.random() * lines.length)])
+            setTimeout(() => setBubble1(null), 3500)
+            soloCooldown1.current = 8
+          }
+          if (soloCooldown2.current <= 0 && Math.random() < 0.08) {
+            const lines = npcDialogues.solo.mokou
+            setBubble2(lines[Math.floor(Math.random() * lines.length)])
+            setTimeout(() => setBubble2(null), 3500)
+            soloCooldown2.current = 8
+          }
+        }
       }
 
       frameRef.current = requestAnimationFrame(animate)
@@ -159,24 +258,18 @@ function useNpcWalker(speed = 1.2) {
 
     frameRef.current = requestAnimationFrame(animate)
     return () => cancelAnimationFrame(frameRef.current)
-  }, [speed])
-
-  return npcRef
-}
-
-function WalkingNPC({ src, speed = 1.2, startX = -120, startY = 200 }) {
-  const npcRef = useNpcWalker(speed)
-
-  useEffect(() => {
-    if (npcRef.current) {
-      const walker = npcRef.current
-      walker.style.transform = `translate(${startX}px, ${startY}px)`
-    }
-  }, [npcRef, startX, startY])
+  }, [])
 
   return (
-    <div ref={npcRef} className="npc" aria-hidden="true">
-      <img src={src} alt="" className="npc-sprite" />
+    <div className="npc-layer" aria-hidden="true">
+      <div ref={npc1Ref} className="npc">
+        {bubble1 && <div className="npc-bubble npc-bubble-left">{bubble1}</div>}
+        <img src="/byakuren.gif" alt="" className="npc-sprite" />
+      </div>
+      <div ref={npc2Ref} className="npc">
+        {bubble2 && <div className="npc-bubble npc-bubble-right">{bubble2}</div>}
+        <img src="/mokou.gif" alt="" className="npc-sprite" />
+      </div>
     </div>
   )
 }
@@ -249,11 +342,8 @@ function App() {
       {/* Hidden background audio element */}
       <audio ref={audioRef} src="/LEASE.mp3" loop />
 
-      {/* Walking NPCs — roam the entire page vertically */}
-      <div className="npc-layer" aria-hidden="true">
-        <WalkingNPC src="/byakuren.gif" speed={1.0} startX={-120} startY={300} />
-        <WalkingNPC src="/mokou.gif" speed={1.4} startX={800} startY={600} />
-      </div>
+      {/* Walking NPCs — roam the entire page and chat */}
+      <NpcLayer />
 
       {/* ── Top Bar ── */}
       <header className="topbar">
@@ -414,6 +504,11 @@ function App() {
           </article>
         </section>
 
+        {/* ── Jennie Aero Decoration ── */}
+        <div className="aero-decor aero-decor-jennie">
+          <img src="/a5ff3035c3f1e8d364ad4b8e13d24511.jpg" alt="" className="aero-decor-img" />
+        </div>
+
         {/* ── Projects from GitHub ── */}
         <section className="window projects-window glass" id="projects">
           <div className="title-bar">
@@ -469,6 +564,23 @@ function App() {
           </div>
         </section>
 
+        {/* ── BLACKPINK Japanese-style Ad Banner ── */}
+        <div className="bp-ad-banner">
+          <div className="bp-ad-glow" />
+          <div className="bp-ad-content">
+            <img src="/giphy.gif" alt="BLACKPINK" className="bp-ad-gif" />
+            <div className="bp-ad-text">
+              <span className="bp-ad-jp">ブラックピンク</span>
+              <span className="bp-ad-title">BLACKPINK IN YOUR AREA</span>
+              <span className="bp-ad-sub">블랙핑크 ♪ THE REVOLUTION</span>
+            </div>
+            <img src="/giphy.gif" alt="BLACKPINK" className="bp-ad-gif bp-ad-gif-mirror" />
+          </div>
+          <div className="bp-ad-ticker">
+            <span>★ BLACKPINK ★ ブラックピンク ★ 블랙핑크 ★ HOW YOU LIKE THAT ★ PINK VENOM ★ SHUT DOWN ★ DDU-DU DDU-DU ★ BLACKPINK ★ ブラックピンク ★ 블랙핑크 ★ HOW YOU LIKE THAT ★ PINK VENOM ★ SHUT DOWN ★ DDU-DU DDU-DU ★</span>
+          </div>
+        </div>
+
         {/* ── Japanese-style ticker 2 ── */}
         <div className="jp-ticker jp-ticker-reverse">
           <div className="jp-ticker-inner">
@@ -494,6 +606,11 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* ── Lisa Aero Decoration ── */}
+        <div className="aero-decor aero-decor-lisa">
+          <img src="/00e94b0b88daf71b60a25f6963ef7c92.jpg" alt="" className="aero-decor-img" />
+        </div>
 
         {/* ── Webring + Links ── */}
         <section className="grid-panels" id="webring">
