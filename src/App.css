@@ -1801,3 +1801,172 @@ button.push-button.aero-btn.alt {
     font-size: 0.74rem;
   }
 }
+
+/* ============================================
+   VIRTUAL PET PANEL STYLES (Meneito the Moltres)
+   ============================================ */
+.pet-window {
+  display: flex;
+  flex-direction: column;
+}
+
+.pet-window-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+}
+
+.pet-display {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.pet-habitat {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6), transparent 50%),
+    rgba(255, 255, 255, 0.25);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 8px 24px rgba(24, 91, 149, 0.12);
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pet-glow-aura {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.38) 0%, transparent 65%);
+  animation: pet-pulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pet-pulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.pet-sprite-link {
+  display: block;
+  z-index: 2;
+  transition: transform 0.2s ease;
+}
+
+.pet-sprite-link:hover {
+  transform: scale(1.15);
+}
+
+.pet-animated-sprite {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  animation: pet-bob 1.8s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(255, 69, 0, 0.35));
+}
+
+@keyframes pet-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.pet-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pet-name {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0d4162;
+  letter-spacing: 0.02em;
+}
+
+.pet-species {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #4a7a94;
+  font-weight: 600;
+}
+
+.pet-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.pet-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pet-stat-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #0d4162;
+  min-width: 55px;
+}
+
+.pet-stat-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.pet-stat-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff8c42, #ffb443);
+  border-radius: 4px;
+}
+
+.love-fill {
+  background: linear-gradient(90deg, #2db87e, #80ffb4);
+}
+
+.energy-fill {
+  background: linear-gradient(90deg, #4b8dff, #8df9ff);
+}
+
+.pet-adoption-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding-top: 12px;
+}
+
+.pet-tagline {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4a7a94;
+}
+
+.pet-adopt-btn {
+  width: 100%;
+  font-size: 0.82rem !important;
+  min-height: 34px !important;
+}
+

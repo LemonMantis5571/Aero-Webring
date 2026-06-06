@@ -612,8 +612,8 @@ function App() {
           <img src="/00e94b0b88daf71b60a25f6963ef7c92.jpg" alt="" className="aero-decor-img" />
         </div>
 
-        {/* ── Links ── */}
-        <section id="webring">
+        {/* ── Links & Pet ── */}
+        <section className="grid-panels" id="webring">
           <article className="window panel-window glass">
             <div className="title-bar">
               <div className="title-bar-text">🔗 links.ini — Cool Sites</div>
@@ -631,6 +631,68 @@ function App() {
                     <span>{link.name}</span>
                   </a>
                 ))}
+              </div>
+            </div>
+          </article>
+
+          <article className="window panel-window glass pet-window">
+            <div className="title-bar">
+              <div className="title-bar-text">🐣 pet_adopt.exe — Virtual Pet</div>
+              <div className="title-bar-controls" aria-hidden="true">
+                <button type="button" tabIndex="-1" aria-label="Minimize" />
+                <button type="button" tabIndex="-1" aria-label="Maximize" />
+                <button type="button" tabIndex="-1" aria-label="Close" />
+              </div>
+            </div>
+            <div className="window-body pet-window-body">
+              <div className="pet-display">
+                <div className="pet-habitat">
+                  <div className="pet-glow-aura" />
+                  <a href="https://www.pokemon-adoption.de" target="_blank" rel="noreferrer" className="pet-sprite-link">
+                    <img
+                      src="https://www.yatta-tempel.de/animierte/lavados-em.gif"
+                      alt="Lavados (Moltres) sprite"
+                      className="pet-animated-sprite"
+                    />
+                  </a>
+                </div>
+                <div className="pet-info">
+                  <h3 className="pet-name">Meneito</h3>
+                  <p className="pet-species">Lv. 50 Moltres (Lavados)</p>
+                </div>
+              </div>
+
+              <div className="pet-stats">
+                <div className="pet-stat-row">
+                  <span className="pet-stat-label">Hunger</span>
+                  <div className="pet-stat-bar">
+                    <div className="pet-stat-fill" style={{ width: '85%' }} />
+                  </div>
+                </div>
+                <div className="pet-stat-row">
+                  <span className="pet-stat-label">Love</span>
+                  <div className="pet-stat-bar">
+                    <div className="pet-stat-fill love-fill" style={{ width: '100%' }} />
+                  </div>
+                </div>
+                <div className="pet-stat-row">
+                  <span className="pet-stat-label">Energy</span>
+                  <div className="pet-stat-bar">
+                    <div className="pet-stat-fill energy-fill" style={{ width: '90%' }} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pet-adoption-cta">
+                <span className="pet-tagline">Adopt one yourself!</span>
+                <a
+                  href="https://www.pokemon-adoption.de"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="push-button aero-btn alt pet-adopt-btn"
+                >
+                  🐣 Pokémon Orphanage
+                </a>
               </div>
             </div>
           </article>
