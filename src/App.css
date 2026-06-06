@@ -730,31 +730,54 @@
 }
 
 .music-btn {
+  /* Reset global 7.css button overrides */
+  all: unset;
+  box-sizing: border-box;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(91, 148, 198, 0.5);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(206, 244, 255, 0.7));
-  display: grid;
-  place-items: center;
-  font-size: 0.7rem;
-  color: #0d4162;
-  cursor: pointer;
-  transition: all 180ms ease;
+  border: 1px solid rgba(91, 148, 198, 0.5) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(206, 244, 255, 0.8)) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.8rem !important;
+  line-height: 1 !important;
+  color: #0d4162 !important;
+  cursor: pointer !important;
+  transition: all 180ms ease !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Disable 7.css glass overlay pseudo-elements for these circular buttons */
+.music-btn::before,
+.music-btn::after {
+  content: none !important;
+  display: none !important;
+  opacity: 0 !important;
 }
 
 .music-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(145, 230, 255, 0.4);
+  transform: scale(1.1) !important;
+  box-shadow: 0 4px 12px rgba(145, 230, 255, 0.5) !important;
 }
 
 .play-btn {
-  width: 44px;
-  height: 44px;
-  font-size: 0.9rem;
-  background: linear-gradient(180deg, #8df9ff, #4b8dff);
-  color: white;
-  border-color: rgba(75, 141, 255, 0.5);
+  width: 44px !important;
+  height: 44px !important;
+  font-size: 1.1rem !important;
+  background: linear-gradient(180deg, #b0f5ff, #3fa0ff) !important;
+  color: #0d4162 !important;
+  border-color: rgba(63, 160, 255, 0.6) !important;
+  box-shadow: 0 2px 6px rgba(63, 160, 255, 0.2) !important;
+}
+
+.play-btn:hover {
+  background: linear-gradient(180deg, #d2f9ff, #6bb8ff) !important;
 }
 
 /* ── Status Widget ── */
