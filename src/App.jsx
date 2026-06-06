@@ -168,15 +168,13 @@ function useNpcWalker(speed = 1.2) {
 
 function WalkingNPC({ src, speed = 1.2, startX = -120, startY = 200 }) {
   const npcRef = useNpcWalker(speed)
-  const posRef = useRef({ x: startX, y: startY })
 
   useEffect(() => {
     if (npcRef.current) {
-      // Initialize posRef used by the walker
       const walker = npcRef.current
       walker.style.transform = `translate(${startX}px, ${startY}px)`
     }
-  }, [startX, startY])
+  }, [npcRef, startX, startY])
 
   return (
     <div ref={npcRef} className="npc" aria-hidden="true">
@@ -189,10 +187,10 @@ function WalkingNPC({ src, speed = 1.2, startX = -120, startY = 200 }) {
 function Bubbles() {
   const bubbles = Array.from({ length: 18 }, (_, i) => ({
     id: i,
-    size: 6 + Math.random() * 28,
-    left: Math.random() * 100,
-    delay: Math.random() * 8,
-    duration: 6 + Math.random() * 8,
+    size: 8 + (i % 5) * 5,
+    left: (i * 11 + (i % 3) * 7) % 100,
+    delay: (i % 6) * 1.15,
+    duration: 7 + (i % 4) * 2,
   }))
 
   return (

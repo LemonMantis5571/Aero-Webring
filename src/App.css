@@ -383,6 +383,10 @@
   z-index: 5;
 }
 
+.desktop > * {
+  min-width: 0;
+}
+
 /* ── Glass Windows Override ── */
 .window.glass {
   background: rgba(255, 255, 255, 0.22) !important;
@@ -1277,6 +1281,12 @@ button.push-button.aero-btn.alt {
     grid-template-columns: 1fr;
   }
 
+  .projects-grid,
+  .webring-grid,
+  .links-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
   .about-body {
     grid-template-columns: 1fr;
     text-align: center;
@@ -1288,13 +1298,22 @@ button.push-button.aero-btn.alt {
 }
 
 @media (max-width: 640px) {
+  .aero-shell {
+    padding: 10px;
+  }
+
+  .desktop {
+    gap: 14px;
+  }
+
   .hero-body {
-    padding: 16px;
+    padding: 14px;
     gap: 16px;
   }
 
   .hero-copy h1 {
-    font-size: 2rem;
+    font-size: 1.7rem;
+    line-height: 1.08;
   }
 
   .topbar {
@@ -1302,13 +1321,23 @@ button.push-button.aero-btn.alt {
     margin-bottom: 12px;
   }
 
+  .brand-pill {
+    width: min(100%, 320px);
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+  }
+
   .quick-links {
     gap: 6px;
+    justify-content: center;
+    width: 100%;
   }
 
   .quick-links a {
-    font-size: 0.74rem;
-    padding: 5px 10px;
+    font-size: 0.72rem;
+    padding: 6px 10px;
   }
 
   .hero-actions {
@@ -1337,6 +1366,7 @@ button.push-button.aero-btn.alt {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   }
 
+  .projects-grid,
   .webring-grid {
     grid-template-columns: 1fr;
   }
@@ -1358,7 +1388,129 @@ button.push-button.aero-btn.alt {
     flex-direction: column;
   }
 
+  .webring-actions,
+  .join-webring-row,
+  .footer-sprites,
+  .music-controls {
+    flex-wrap: wrap;
+  }
+
+  .title-bar {
+    min-height: 30px;
+    padding-right: 6px;
+  }
+
+  .title-bar-text {
+    font-size: 0.78rem;
+    line-height: 1.2;
+    padding-right: 8px;
+    overflow-wrap: anywhere;
+  }
+
+  .title-bar-controls {
+    transform: scale(0.92);
+    transform-origin: right center;
+  }
+
+  .panel-window .window-body,
+  .projects-window .window-body,
+  .pokedex-window .window-body,
+  .guestbook-window .window-body,
+  .about-body {
+    padding: 14px;
+  }
+
+  .about-body {
+    gap: 16px;
+  }
+
+  .about-field {
+    display: grid;
+    gap: 4px;
+    text-align: left;
+  }
+
+  .about-field label {
+    min-width: 0;
+    margin-right: 0;
+  }
+
+  .stat-row,
+  .weather-widget,
+  .join-webring-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .stat-row span:first-child {
+    min-width: 0;
+  }
+
+  .stat-bar,
+  .webring-code-box {
+    width: 100%;
+  }
+
+  .guestbook-iframe {
+    height: 480px;
+  }
+
   .npc-sprite {
     max-height: 50px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-copy h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle,
+  .panel-intro,
+  .guestbook-tip,
+  .join-webring-desc,
+  .project-desc,
+  .track-artist,
+  .site-footer p {
+    font-size: 0.8rem;
+  }
+
+  .quick-links a,
+  .push-button.aero-btn,
+  .webring-badge,
+  .link-button,
+  .project-name,
+  .pokemon-name {
+    font-size: 0.76rem !important;
+  }
+
+  .brand-pill {
+    font-size: 0.82rem;
+  }
+
+  .avatar-frame {
+    width: 92px;
+    height: 92px;
+  }
+
+  .webring-card,
+  .project-card,
+  .pokemon-card,
+  .link-button {
+    padding: 12px;
+  }
+
+  .pokemon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .showcase-sprite {
+    width: 44px;
+    height: 44px;
+  }
+
+  .jp-ticker-inner span {
+    font-size: 0.74rem;
   }
 }
