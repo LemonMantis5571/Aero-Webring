@@ -238,7 +238,7 @@ function App() {
   }
 
   const handleCopyWebringCode = () => {
-    const codeSnippet = `<a href="https://github.com/LemonMantis5571/Aero-Webring" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>LemonMantis Webring</span></a>`
+    const codeSnippet = `<a href="https://lemonwebring.xyz" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>Lemon Webring</span></a>`
     navigator.clipboard.writeText(codeSnippet)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -529,8 +529,10 @@ function App() {
                   <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
                     ← Prev
                   </a>
-                  <span className="webring-badge">🌐 Y2K Webring</span>
-                  <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
+                  <a href="https://lemonwebring.xyz" target="_blank" rel="noreferrer" className="webring-badge" style={{ textDecoration: 'none' }}>
+                    🌐 Lemon Webring
+                  </a>
+                  <a href="https://lakes.glamour.ovh/" target="_blank" rel="noreferrer" className="push-button aero-btn">
                     Next →
                   </a>
                 </div>
@@ -554,7 +556,7 @@ function App() {
                     <textarea 
                       className="webring-code-box"
                       readOnly
-                      value={`<a href="https://github.com/LemonMantis5571/Aero-Webring" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>LemonMantis Webring</span></a>`}
+                      value={`<a href="https://lemonwebring.xyz" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>Lemon Webring</span></a>`}
                       onClick={(e) => e.target.select()}
                     />
                     <div className="join-webring-row">
