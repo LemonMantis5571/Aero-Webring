@@ -692,6 +692,11 @@
   width: 6px;
   background: linear-gradient(180deg, #8df9ff, #4b8dff);
   border-radius: 3px 3px 0 0;
+  height: 8px;
+  transition: height 0.2s ease;
+}
+
+.now-playing.playing .viz-bar {
   animation: viz-bounce 0.8s ease-in-out infinite alternate;
 }
 
@@ -1033,77 +1038,119 @@
   padding: 22px;
 }
 
-.guestbook-form {
-  margin-bottom: 18px;
-}
-
-.guestbook-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.guestbook-input-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.guest-loading {
-  text-align: center;
-  color: #4a7a94;
-  font-size: 0.88rem;
-  padding: 20px;
-}
-
-.guestbook-input-row label {
-  font-weight: 600;
+.guestbook-tip {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
   color: #0d4162;
-  white-space: nowrap;
-}
-
-.guestbook-input-row input {
-  flex: 1;
-  min-width: 200px;
-}
-
-.guestbook-entries {
-  display: grid;
-  gap: 10px;
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 6px;
-}
-
-.guestbook-entry {
-  padding: 14px 16px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.25);
+  line-height: 1.5;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  padding: 10px 14px;
   border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
-.entry-header {
+.guestbook-iframe-container {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(91, 148, 198, 0.4);
+  box-shadow: 
+    inset 0 2px 5px rgba(0, 0, 0, 0.1),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.guestbook-iframe {
+  width: 100%;
+  height: 580px;
+  border: none;
+  display: block;
+}
+
+/* ── Join Webring Section ── */
+.webring-nav-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.webring-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.join-webring-panel {
+  width: 100%;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  animation: slideDown 0.3s ease-out;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.join-webring-title {
+  font-weight: 700;
+  color: #0d4162;
+  font-size: 0.95rem;
+  margin: 0 0 8px 0;
+}
+
+.join-webring-desc {
+  font-size: 0.82rem;
+  color: #214d66;
+  margin: 0 0 12px 0;
+  line-height: 1.45;
+}
+
+.webring-code-box {
+  width: 100%;
+  height: 70px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.76rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(91, 148, 198, 0.4);
+  border-radius: 6px;
+  padding: 8px;
+  color: #214d66;
+  resize: none;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.join-webring-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 6px;
+  align-items: center;
+  gap: 10px;
 }
 
-.entry-header strong {
-  color: #0d4162;
-  font-size: 0.9rem;
-}
-
-.entry-date {
-  font-size: 0.75rem;
-  color: #4a7a94;
-}
-
-.guestbook-entry p {
-  margin: 0;
-  color: #214d66;
-  font-size: 0.88rem;
-  line-height: 1.5;
+.copy-success-msg {
+  font-size: 0.82rem;
+  color: #1a811a;
+  font-weight: 600;
+  display: inline-block;
 }
 
 /* ── Footer ── */

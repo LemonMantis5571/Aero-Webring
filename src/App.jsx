@@ -25,6 +25,7 @@ const spriteStatic = (id) =>
 
 /* ── Navigation ── */
 const navLinks = [
+  { label: 'Portfolio', href: 'https://www.lemonmantis.dev', external: true },
   { label: 'About Me', href: '#about' },
   { label: 'Projects', href: '#projects' },
   { label: 'Pokédex', href: '#pokedex' },
@@ -94,6 +95,7 @@ const webringMembers = [
 
 /* ── Friend links ── */
 const friendLinks = [
+  { name: 'Portfolio', url: 'https://www.lemonmantis.dev', icon: '💼' },
   { name: 'GitHub', url: 'https://github.com/LemonMantis5571', icon: '🐙' },
   { name: 'Neocities', url: 'https://neocities.org/', icon: '🏠' },
   { name: 'Nekoweb', url: 'https://nekoweb.org/', icon: '🐱' },
@@ -101,9 +103,6 @@ const friendLinks = [
   { name: 'MelonLand Forum', url: 'https://forum.melonland.net/', icon: '🍈' },
   { name: 'PokeAPI', url: 'https://pokeapi.co/', icon: '⚡' },
 ]
-
-/* ── Guestbook storage key ── */
-const GUESTBOOK_KEY = 'lemonmantis-guestbook'
 
 /* ── Language color map ── */
 const langColors = {
@@ -218,43 +217,41 @@ function Bubbles() {
 /* ── Main App ── */
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
-  const [guestName, setGuestName] = useState('')
-  const [guestMessage, setGuestMessage] = useState('')
-  const [guestEntries, setGuestEntries] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem(GUESTBOOK_KEY)) || []
-    } catch {
-      return []
-    }
-  })
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [showWebringModal, setShowWebringModal] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const audioRef = useRef(null)
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
 
-  useEffect(() => {
-    localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(guestEntries))
-  }, [guestEntries])
-
-  const handleGuestSubmit = (e) => {
-    e.preventDefault()
-    if (!guestMessage.trim() || !guestName.trim()) return
-
-    const newEntry = {
-      name: guestName.trim().slice(0, 30),
-      msg: guestMessage.trim().slice(0, 200),
-      date: new Date().toISOString().split('T')[0],
+  const togglePlay = () => {
+    if (!audioRef.current) return
+    if (isPlaying) {
+      audioRef.current.pause()
+    } else {
+      audioRef.current.play().catch((err) => {
+        console.warn("Playback prevented by browser policy. User interaction required first.", err)
+      })
     }
+    setIsPlaying(!isPlaying)
+  }
 
-    setGuestEntries((prev) => [newEntry, ...prev].slice(0, 50))
-    setGuestName('')
-    setGuestMessage('')
+  const handleCopyWebringCode = () => {
+    const codeSnippet = `<a href="https://github.com/LemonMantis5571/Aero-Webring" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>LemonMantis Webring</span></a>`
+    navigator.clipboard.writeText(codeSnippet)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
     <div className="aero-shell">
       <Bubbles />
+      
+      {/* Hidden background audio element */}
+      <audio ref={audioRef} src="/LEASE.mp3" loop />
 
       {/* Walking NPCs — roam the entire page vertically */}
       <div className="npc-layer" aria-hidden="true">
@@ -270,7 +267,12 @@ function App() {
         </div>
         <nav className="quick-links" aria-label="Quick links">
           {navLinks.map((link) => (
-            <a key={link.label} href={link.href}>
+            <a 
+              key={link.label} 
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
+            >
               {link.label}
             </a>
           ))}
@@ -300,7 +302,10 @@ function App() {
               <p className="hero-subtitle">Web Artisan · ES | EN | KR | CN</p>
 
               <div className="hero-actions">
-                <a className="push-button aero-btn" href="#projects">
+                <a className="push-button aero-btn" href="https://www.lemonmantis.dev" target="_blank" rel="noreferrer">
+                  My Portfolio 💼
+                </a>
+                <a className="push-button aero-btn alt" href="#projects">
                   My Projects
                 </a>
                 <a className="push-button aero-btn alt" href="#guestbook">
@@ -319,7 +324,7 @@ function App() {
           </div>
           <div className="status-bar">
             <p className="status-bar-field">🌤️ {currentTime.toLocaleDateString()}</p>
-            <p className="status-bar-field">🎵 Now playing: something cool</p>
+            <p className="status-bar-field">🎵 {isPlaying ? 'Now playing: Lease - Takeshi Abo' : 'Music Player Paused'}</p>
           </div>
         </section>
 
@@ -391,20 +396,22 @@ function App() {
               </div>
             </div>
             <div className="window-body">
-              <div className="now-playing">
+              <div className={`now-playing ${isPlaying ? 'playing' : ''}`}>
                 <div className="music-visualizer" aria-hidden="true">
                   {Array.from({ length: 12 }).map((_, i) => (
                     <div key={i} className="viz-bar" style={{ animationDelay: `${i * 0.12}s` }} />
                   ))}
                 </div>
                 <div className="track-info">
-                  <span className="track-title">Synthetic Tides</span>
-                  <span className="track-artist">FM</span>
+                  <span className="track-title">Lease</span>
+                  <span className="track-artist">Takeshi Abo</span>
                 </div>
                 <div className="music-controls">
-                  <button className="music-btn" type="button">⏮</button>
-                  <button className="music-btn play-btn" type="button">▶</button>
-                  <button className="music-btn" type="button">⏭</button>
+                  <button className="music-btn" type="button" onClick={() => { if (audioRef.current) audioRef.current.currentTime = 0 }} aria-label="Restart song">⏮</button>
+                  <button className="music-btn play-btn" type="button" onClick={togglePlay} aria-label={isPlaying ? "Pause music" : "Play music"}>
+                    {isPlaying ? '⏸' : '▶'}
+                  </button>
+                  <button className="music-btn" type="button" onClick={() => { if (audioRef.current) audioRef.current.currentTime = 0 }} aria-label="Restart song">⏭</button>
                 </div>
               </div>
             </div>
@@ -519,14 +526,58 @@ function App() {
                   </a>
                 ))}
               </div>
-              <div className="webring-nav">
-                <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
-                  ← Prev
-                </a>
-                <span className="webring-badge">🌐 Y2K Webring</span>
-                <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
-                  Next →
-                </a>
+              <div className="webring-nav-container">
+                <div className="webring-nav">
+                  <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
+                    ← Prev
+                  </a>
+                  <span className="webring-badge">🌐 Y2K Webring</span>
+                  <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
+                    Next →
+                  </a>
+                </div>
+                
+                <div className="webring-actions">
+                  <button 
+                    type="button" 
+                    className="push-button aero-btn"
+                    onClick={() => setShowWebringModal(!showWebringModal)}
+                  >
+                    {showWebringModal ? 'Hide Widget Code ✕' : 'Join Webring 🤝'}
+                  </button>
+                </div>
+
+                {showWebringModal && (
+                  <div className="join-webring-panel">
+                    <h4 className="join-webring-title">Add my site to your webring!</h4>
+                    <p className="join-webring-desc">
+                      Copy the HTML code below and place it on your website, then submit a pull request or email to be added!
+                    </p>
+                    <textarea 
+                      className="webring-code-box"
+                      readOnly
+                      value={`<a href="https://github.com/LemonMantis5571/Aero-Webring" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>LemonMantis Webring</span></a>`}
+                      onClick={(e) => e.target.select()}
+                    />
+                    <div className="join-webring-row">
+                      <button 
+                        type="button" 
+                        className="push-button aero-btn alt"
+                        onClick={handleCopyWebringCode}
+                      >
+                        {copied ? 'Copied! ✅' : 'Copy Code 📋'}
+                      </button>
+                      <a 
+                        href="https://github.com/LemonMantis5571/Aero-Webring" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="push-button aero-btn"
+                      >
+                        Submit Site 🚀
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </article>
@@ -564,51 +615,16 @@ function App() {
             </div>
           </div>
           <div className="window-body">
-            <form className="guestbook-form" onSubmit={handleGuestSubmit}>
-              <div className="guestbook-fields">
-                <div className="field-row guestbook-input-row">
-                  <label htmlFor="guestName">Name:</label>
-                  <input
-                    id="guestName"
-                    type="text"
-                    value={guestName}
-                    onChange={(e) => setGuestName(e.target.value)}
-                    placeholder="Your name"
-                    maxLength={30}
-                    required
-                  />
-                </div>
-                <div className="field-row guestbook-input-row">
-                  <label htmlFor="guestMsg">Message:</label>
-                  <input
-                    id="guestMsg"
-                    type="text"
-                    value={guestMessage}
-                    onChange={(e) => setGuestMessage(e.target.value)}
-                    placeholder="Leave a message..."
-                    maxLength={200}
-                    required
-                  />
-                </div>
-                <button type="submit" className="push-button aero-btn">
-                  Sign ✍️
-                </button>
-              </div>
-            </form>
-            <div className="guestbook-entries">
-              {guestEntries.length === 0 ? (
-                <p className="guest-loading">No entries yet — be the first to sign!</p>
-              ) : (
-                guestEntries.map((entry, i) => (
-                  <div key={i} className="guestbook-entry">
-                    <div className="entry-header">
-                      <strong>{entry.name}</strong>
-                      <span className="entry-date">{entry.date}</span>
-                    </div>
-                    <p>{entry.msg}</p>
-                  </div>
-                ))
-              )}
+            <p className="guestbook-tip">
+              💬 Say hello! Sign my live guestbook below. Feel free to leave a comment or emoji.
+            </p>
+            <div className="guestbook-iframe-container">
+              <iframe
+                src="https://lemonmantis5571.atabook.org"
+                title="LemonMantis5571 Guestbook"
+                className="guestbook-iframe"
+                scrolling="yes"
+              />
             </div>
           </div>
         </section>
