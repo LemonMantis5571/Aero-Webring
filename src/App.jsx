@@ -149,10 +149,10 @@ const npcDialogues = {
 function NpcLayer() {
   const npc1Ref = useRef(null)
   const npc2Ref = useRef(null)
-  const pos1 = useRef({ x: -120, y: 300 })
-  const pos2 = useRef({ x: 800, y: 600 })
+  const pos1 = useRef({ x: 20, y: 200 })
+  const pos2 = useRef({ x: 200, y: 400 })
   const target1 = useRef({ x: 200, y: 400 })
-  const target2 = useRef({ x: 400, y: 200 })
+  const target2 = useRef({ x: 100, y: 200 })
   const facing1 = useRef(1)
   const facing2 = useRef(-1)
   const frameRef = useRef(0)
@@ -165,11 +165,11 @@ function NpcLayer() {
 
   useEffect(() => {
     const pickTarget = () => {
-      const pageH = document.documentElement.scrollHeight
       const vpW = window.innerWidth
+      const vpH = window.innerHeight
       return {
-        x: 40 + Math.random() * (vpW - 160),
-        y: 100 + Math.random() * (pageH - 300),
+        x: 20 + Math.random() * (vpW - 140),
+        y: 60 + Math.random() * (vpH - 180),
       }
     }
 
@@ -612,91 +612,8 @@ function App() {
           <img src="/00e94b0b88daf71b60a25f6963ef7c92.jpg" alt="" className="aero-decor-img" />
         </div>
 
-        {/* ── Webring + Links ── */}
-        <section className="grid-panels" id="webring">
-          <article className="window panel-window glass">
-            <div className="title-bar">
-              <div className="title-bar-text">🌐 webring.url — Neighbors</div>
-              <div className="title-bar-controls" aria-hidden="true">
-                <button type="button" tabIndex="-1" aria-label="Minimize" />
-                <button type="button" tabIndex="-1" aria-label="Maximize" />
-                <button type="button" tabIndex="-1" aria-label="Close" />
-              </div>
-            </div>
-            <div className="window-body">
-              <div className="webring-grid">
-                {webringMembers.map((member) => (
-                  <a
-                    key={member.name}
-                    className="webring-card"
-                    href={member.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ '--card-accent': member.color }}
-                  >
-                    <span className="webring-dot" />
-                    <strong>{member.name}</strong>
-                  </a>
-                ))}
-              </div>
-              <div className="webring-nav-container">
-                <div className="webring-nav">
-                  <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
-                    ← Prev
-                  </a>
-                  <a href="https://lemonwebring.xyz" target="_blank" rel="noreferrer" className="webring-badge" style={{ textDecoration: 'none' }}>
-                    🌐 Lemon Webring
-                  </a>
-                  <a href="https://lakes.glamour.ovh/" target="_blank" rel="noreferrer" className="push-button aero-btn">
-                    Next →
-                  </a>
-                </div>
-                
-                <div className="webring-actions">
-                  <button 
-                    type="button" 
-                    className="push-button aero-btn"
-                    onClick={() => setShowWebringModal(!showWebringModal)}
-                  >
-                    {showWebringModal ? 'Hide Widget Code ✕' : 'Join Webring 🤝'}
-                  </button>
-                </div>
-
-                {showWebringModal && (
-                  <div className="join-webring-panel">
-                    <h4 className="join-webring-title">Add my site to your webring!</h4>
-                    <p className="join-webring-desc">
-                      Copy the HTML code below and place it on your website, then submit a pull request or email to be added!
-                    </p>
-                    <textarea 
-                      className="webring-code-box"
-                      readOnly
-                      value={`<a href="https://lemonwebring.xyz" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>Lemon Webring</span></a>`}
-                      onClick={(e) => e.target.select()}
-                    />
-                    <div className="join-webring-row">
-                      <button 
-                        type="button" 
-                        className="push-button aero-btn alt"
-                        onClick={handleCopyWebringCode}
-                      >
-                        {copied ? 'Copied! ✅' : 'Copy Code 📋'}
-                      </button>
-                      <a 
-                        href="https://github.com/LemonMantis5571/Aero-Webring" 
-                        target="_blank" 
-                        rel="noreferrer"
-                        className="push-button aero-btn"
-                      >
-                        Submit Site 🚀
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </article>
-
+        {/* ── Links ── */}
+        <section id="webring">
           <article className="window panel-window glass">
             <div className="title-bar">
               <div className="title-bar-text">🔗 links.ini — Cool Sites</div>
