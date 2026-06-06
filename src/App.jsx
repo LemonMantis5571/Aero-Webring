@@ -37,6 +37,27 @@ const navLinks = [
 /* ── Projects from GitHub ── */
 const projects = [
   {
+    name: 'edgestore',
+    desc: 'The best way to add file uploads to React apps',
+    url: 'https://github.com/edgestorejs/edgestore',
+    lang: 'TypeScript',
+    stars: 453,
+  },
+  {
+    name: 'awesome-ucp',
+    desc: 'A curated list of awesome Universal Commerce Protocol (UCP) resources, tools, and implementations',
+    url: 'https://github.com/Upsonic/awesome-ucp',
+    lang: 'Markdown',
+    stars: 126,
+  },
+  {
+    name: 'LimeBot-OS',
+    desc: 'A self-hosted, agentic AI assistant with multi-channel support, persistent memory, and a real-time web dashboard',
+    url: 'https://github.com/Ethereal-Lemons/LimeBot-OS',
+    lang: 'Python',
+    stars: 16,
+  },
+  {
     name: 'PokeMMO-Utilities',
     desc: 'PvP utilities for PokeMMO players',
     url: 'https://github.com/LemonMantis5571/PokeMMO-Utilities',
@@ -45,41 +66,18 @@ const projects = [
     stars: 12,
   },
   {
+    name: 'SilentFail',
+    desc: 'Monitor Cron Jobs by using a simple Curl command',
+    url: 'https://github.com/Ethereal-Lemons/SilentFail',
+    lang: 'TypeScript',
+    stars: 7,
+  },
+  {
     name: 'A-mess Visual Novel',
-    desc: 'Visual Novel Project',
+    desc: 'Visual Novel Project Development',
     url: 'https://github.com/LemonMantis5571/A-mess-Visual-Novel-Project',
     lang: 'Python',
     stars: 5,
-  },
-  {
-    name: 'RO Card Simulator',
-    desc: 'Card gacha simulator for Ragnarok Online',
-    url: 'https://github.com/LemonMantis5571/Ragnarok-Online-Card-Simulator',
-    live: 'https://ragnarok-online-card-simulator-production-0bd5.up.railway.app',
-    lang: 'TypeScript',
-    stars: 0,
-  },
-  {
-    name: 'Git-AutoCommit',
-    desc: 'AI-powered conventional commit generator',
-    url: 'https://github.com/LemonMantis5571/Git-AutoCommit',
-    lang: 'TypeScript',
-    stars: 0,
-  },
-  {
-    name: 'Moodle-Skill',
-    desc: 'Moodle Skill for AI Agents',
-    url: 'https://github.com/LemonMantis5571/Moodle-Skill',
-    lang: 'Markdown',
-    stars: 1,
-  },
-  {
-    name: 'Coinbase Clone',
-    desc: 'Coinbase landing page clone',
-    url: 'https://github.com/LemonMantis5571/Coinbase-Clone-Updated',
-    live: 'https://crypto-currency-landingpage-clone.vercel.app/',
-    lang: 'HTML',
-    stars: 1,
   },
 ]
 
