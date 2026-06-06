@@ -632,6 +632,39 @@ function App() {
                   </a>
                 ))}
               </div>
+
+              <div className="links-webring-share">
+                <button
+                  type="button"
+                  className="push-button aero-btn links-webring-btn"
+                  onClick={() => setShowWebringModal(!showWebringModal)}
+                >
+                  {showWebringModal ? 'Hide Webring Widget ✕' : 'Get Webring Badge 🌐'}
+                </button>
+
+                {showWebringModal && (
+                  <div className="links-webring-panel">
+                    <p className="links-webring-desc">
+                      Copy the HTML code below to link to this webring from your site!
+                    </p>
+                    <textarea
+                      className="webring-code-box"
+                      readOnly
+                      value={`<a href="https://lemonwebring.xyz" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>Lemon Webring</span></a>`}
+                      onClick={(e) => e.target.select()}
+                    />
+                    <div className="links-webring-row">
+                      <button
+                        type="button"
+                        className="push-button aero-btn alt"
+                        onClick={handleCopyWebringCode}
+                      >
+                        {copied ? 'Copied! ✅' : 'Copy HTML Code 📋'}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </article>
 
