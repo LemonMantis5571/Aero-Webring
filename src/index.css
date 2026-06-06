@@ -52,9 +52,8 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.15), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(145, 230, 255, 0.1), transparent 35%);
+  background: url('/wallpaper1.jpg') center/cover no-repeat;
+  opacity: 0.22;
   z-index: 0;
 }
 

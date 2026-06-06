@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
-/* ── Pokémon sprite data (PokeAPI CDN) ── */
+/* ── Pokémon sprites (PokeAPI CDN) ── */
 const pokemonTeam = [
   { name: 'Pikachu', id: 25 },
   { name: 'Eevee', id: 133 },
@@ -23,31 +23,7 @@ const spriteUrl = (id) =>
 const spriteStatic = (id) =>
   `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 
-/* ── Gallery wallpapers from the web ── */
-const galleryImages = [
-  {
-    src: 'https://wallpapercave.com/wp/wp13908387.png',
-    label: 'Frutiger Aero Bubbles',
-  },
-  {
-    src: 'https://wallpapercave.com/wp/wp13908399.png',
-    label: 'Nature Glass',
-  },
-  {
-    src: 'https://wallpapercave.com/wp/wp13908393.png',
-    label: 'Aero Vista',
-  },
-  {
-    src: 'https://wallpapercave.com/wp/wp13908395.png',
-    label: 'Digital Meadow',
-  },
-  {
-    src: 'https://wallpapercave.com/wp/wp13908401.png',
-    label: 'Sky Bloom',
-  },
-]
-
-/* ── Navigation links ── */
+/* ── Navigation ── */
 const navLinks = [
   { label: 'About Me', href: '#about' },
   { label: 'Pokédex', href: '#pokedex' },
@@ -77,37 +53,17 @@ const friendLinks = [
   { name: '7.css', url: 'https://khang-nd.github.io/7.css/', icon: '🪟' },
 ]
 
-/* ── Floating Pokémon decoration ── */
-function FloatingPokemon() {
-  const floaters = [
-    { id: 25, x: '5%', y: '15%', delay: '0s', size: 64 },
-    { id: 133, x: '88%', y: '8%', delay: '1.2s', size: 56 },
-    { id: 7, x: '92%', y: '45%', delay: '2.4s', size: 48 },
-    { id: 94, x: '3%', y: '55%', delay: '0.8s', size: 52 },
-    { id: 282, x: '90%', y: '78%', delay: '1.6s', size: 56 },
-    { id: 350, x: '8%', y: '85%', delay: '3s', size: 48 },
-  ]
+/* ── Gallery wallpapers ── */
+const galleryImages = [
+  { src: 'https://wallpapercave.com/wp/wp13908387.png', label: 'Bubbles' },
+  { src: 'https://wallpapercave.com/wp/wp13908399.png', label: 'Nature Glass' },
+  { src: 'https://wallpapercave.com/wp/wp13908393.png', label: 'Vista' },
+  { src: 'https://wallpapercave.com/wp/wp13908395.png', label: 'Meadow' },
+  { src: 'https://wallpapercave.com/wp/wp13908401.png', label: 'Sky' },
+]
 
-  return (
-    <div className="floating-pokemon" aria-hidden="true">
-      {floaters.map((p) => (
-        <img
-          key={p.id}
-          src={spriteUrl(p.id)}
-          alt=""
-          className="floater-sprite"
-          style={{
-            left: p.x,
-            top: p.y,
-            animationDelay: p.delay,
-            width: p.size,
-            height: p.size,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
+/* ── Guestbook storage key ── */
+const GUESTBOOK_KEY = 'lemonmantis-guestbook'
 
 /* ── Bubble decorations ── */
 function Bubbles() {
@@ -141,33 +97,53 @@ function Bubbles() {
 /* ── Main App ── */
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [guestName, setGuestName] = useState('')
   const [guestMessage, setGuestMessage] = useState('')
-  const [guestEntries, setGuestEntries] = useState([
-    { name: 'AeroFan2024', msg: 'Love the glossy vibes! ✨', date: '2026-05-28' },
-    { name: 'PixelTrainer', msg: 'The Pokémon sprites are so cute!', date: '2026-06-01' },
-    { name: 'GlassPanel', msg: 'This site gives me Vista nostalgia 🪟', date: '2026-06-03' },
-  ])
+  const [guestEntries, setGuestEntries] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(GUESTBOOK_KEY)) || []
+    } catch {
+      return []
+    }
+  })
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000)
     return () => clearInterval(timer)
   }, [])
 
+  /* ── Save guestbook to localStorage whenever it changes ── */
+  useEffect(() => {
+    localStorage.setItem(GUESTBOOK_KEY, JSON.stringify(guestEntries))
+  }, [guestEntries])
+
+  /* ── Submit guestbook entry ── */
   const handleGuestSubmit = (e) => {
     e.preventDefault()
-    if (guestMessage.trim()) {
-      setGuestEntries([
-        { name: 'Visitor', msg: guestMessage, date: new Date().toISOString().split('T')[0] },
-        ...guestEntries,
-      ])
-      setGuestMessage('')
+    if (!guestMessage.trim() || !guestName.trim()) return
+
+    const newEntry = {
+      name: guestName.trim().slice(0, 30),
+      msg: guestMessage.trim().slice(0, 200),
+      date: new Date().toISOString().split('T')[0],
     }
+
+    setGuestEntries((prev) => [newEntry, ...prev].slice(0, 50))
+    setGuestName('')
+    setGuestMessage('')
   }
 
   return (
     <div className="aero-shell">
       <Bubbles />
-      <FloatingPokemon />
+
+      {/* Decorative GIFs scattered around */}
+      <div className="deco-gifs" aria-hidden="true">
+        <img src="/byakuren.gif" alt="" className="deco-gif deco-gif-1" />
+        <img src="/mokou.gif" alt="" className="deco-gif deco-gif-2" />
+        <img src="/byakuren.gif" alt="" className="deco-gif deco-gif-3" />
+        <img src="/mokou.gif" alt="" className="deco-gif deco-gif-4" />
+      </div>
 
       {/* ── Top Bar ── */}
       <header className="topbar">
@@ -193,7 +169,7 @@ function App() {
         <section className="window hero-window glass active" aria-labelledby="hero-title">
           <div className="title-bar">
             <div className="title-bar-text" id="hero-title">
-              🌿 welcome.exe — LemonMantis5571&apos;s Neocity
+              🌿 welcome.exe — LemonMantis5571
             </div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
@@ -203,36 +179,31 @@ function App() {
           </div>
           <div className="window-body hero-body">
             <div className="hero-copy">
-              <p className="eyebrow">Frutiger Aero / Pokémon / Personal Web</p>
-              <h1>Welcome to my corner of the internet</h1>
-              <p className="lede">
-                Pokémon pixel art, Frutiger Aero wallpapers, and glossy glass panels.
-                Part of the Aero &amp; Y2K Webring.
-              </p>
+              <h1>Welcome to my site!</h1>
+
+              <div className="hero-gifs">
+                <img src="/byakuren.gif" alt="Byakuren" className="hero-gif" />
+                <img src="/mokou.gif" alt="Mokou" className="hero-gif" />
+              </div>
 
               <div className="hero-actions">
                 <a className="push-button aero-btn" href="#pokedex">
-                  View My Pokédex
+                  My Pokédex
                 </a>
-                <a className="push-button aero-btn alt" href="#webring">
-                  Browse Webring
+                <a className="push-button aero-btn alt" href="#guestbook">
+                  Sign Guestbook
                 </a>
               </div>
 
-              <div className="badge-row" aria-label="Visual themes">
-                <span>🌊 glass chrome</span>
-                <span>🌈 rainbow reflections</span>
-                <span>⚡ pixel pokémon</span>
-                <span>🎵 jukebox energy</span>
+              <div className="badge-row" aria-label="Interests">
+                <span>🌊 Touhou</span>
+                <span>⚡ Pokémon</span>
+                <span>🎮 Games</span>
+                <span>🎵 Music</span>
               </div>
             </div>
 
             <div className="hero-visual" aria-hidden="true">
-              <img
-                src="https://wallpapercave.com/wp/wp13908387.png"
-                alt="Frutiger Aero wallpaper"
-                className="hero-image"
-              />
               <div className="pokemon-showcase">
                 <img src={spriteUrl(25)} alt="" className="showcase-sprite bounce-1" />
                 <img src={spriteUrl(133)} alt="" className="showcase-sprite bounce-2" />
@@ -241,12 +212,12 @@ function App() {
             </div>
           </div>
           <div className="status-bar">
-            <p className="status-bar-field">🌤️ Forecast: clear skies with reflective surfaces</p>
-            <p className="status-bar-field">🎵 Now playing: soft synthetic tides</p>
+            <p className="status-bar-field">🌤️ {currentTime.toLocaleDateString()}</p>
+            <p className="status-bar-field">🎵 Now playing: something cool</p>
           </div>
         </section>
 
-        {/* ── About Me Window ── */}
+        {/* ── About Me ── */}
         <section className="grid-panels" id="about">
           <article className="window panel-window glass">
             <div className="title-bar">
@@ -260,40 +231,26 @@ function App() {
             <div className="window-body about-body">
               <div className="about-avatar-section">
                 <div className="avatar-frame">
-                  <img
-                    src={spriteUrl(197)}
-                    alt="Umbreon sprite"
-                    className="avatar-sprite"
-                  />
+                  <img src={spriteUrl(197)} alt="Umbreon" className="avatar-sprite" />
                 </div>
                 <h2 className="about-username">LemonMantis5571</h2>
                 <div className="about-badges">
                   <span className="about-badge">🎮 Gamer</span>
-                  <span className="about-badge">🌿 Aero Enthusiast</span>
                   <span className="about-badge">⚡ Pokémon Trainer</span>
                 </div>
               </div>
               <div className="about-text">
-                <p>
-                  Hey! Welcome to my site. I like Frutiger Aero, Pokémon, and the personal web.
-                </p>
-                <p>
-                  This is my neocity — a place for pixel art, wallpapers, and links to cool sites.
-                  The internet should be personal and creative.
-                </p>
+                <p>Hey! Welcome to my site.</p>
                 <div className="field-row about-field">
                   <label>Favorite Pokémon:</label>
                   <span>Umbreon, Gardevoir, Flygon</span>
                 </div>
-                <div className="field-row about-field">
-                  <label>Aesthetic:</label>
-                  <span>Frutiger Aero, Y2K, Skeuomorphism</span>
-                </div>
+                <img src="/byakuren.gif" alt="Byakuren" className="about-gif" />
               </div>
             </div>
           </article>
 
-          {/* ── Now Playing Panel ── */}
+          {/* ── Now Playing ── */}
           <article className="window panel-window glass status-panel">
             <div className="title-bar">
               <div className="title-bar-text">🎵 now_playing.wma</div>
@@ -307,16 +264,12 @@ function App() {
               <div className="now-playing">
                 <div className="music-visualizer" aria-hidden="true">
                   {Array.from({ length: 12 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="viz-bar"
-                      style={{ animationDelay: `${i * 0.12}s` }}
-                    />
+                    <div key={i} className="viz-bar" style={{ animationDelay: `${i * 0.12}s` }} />
                   ))}
                 </div>
                 <div className="track-info">
                   <span className="track-title">Synthetic Tides</span>
-                  <span className="track-artist">Aero FM</span>
+                  <span className="track-artist">FM</span>
                 </div>
                 <div className="music-controls">
                   <button className="music-btn" type="button">⏮</button>
@@ -324,20 +277,14 @@ function App() {
                   <button className="music-btn" type="button">⏭</button>
                 </div>
               </div>
-
-              <div className="weather-widget">
-                <span className="weather-icon">🌤️</span>
-                <div>
-                  <strong>Desktop Weather</strong>
-                  <br />
-                  Clear skies, 72°F
-                </div>
+              <div className="panel-gif-container">
+                <img src="/mokou.gif" alt="Mokou" className="panel-gif" />
               </div>
             </div>
           </article>
         </section>
 
-        {/* ── Pokédex Grid ── */}
+        {/* ── Pokédex ── */}
         <section className="window pokedex-window glass" id="pokedex">
           <div className="title-bar">
             <div className="title-bar-text">⚡ pokedex.exe — My Pokémon Team</div>
@@ -348,9 +295,6 @@ function App() {
             </div>
           </div>
           <div className="window-body">
-            <p className="panel-intro">
-              My Pokémon team — hover to see animated sprites! 🎮
-            </p>
             <div className="pokemon-grid">
               {pokemonTeam.map((poke) => (
                 <PokemonCard key={poke.id} pokemon={poke} />
@@ -359,10 +303,10 @@ function App() {
           </div>
         </section>
 
-        {/* ── Gallery / Wallpapers Window ── */}
+        {/* ── Gallery ── */}
         <section className="window gallery-window glass" id="gallery">
           <div className="title-bar">
-            <div className="title-bar-text">🖼️ gallery.bmp — Frutiger Aero Wallpapers</div>
+            <div className="title-bar-text">🖼️ gallery.bmp — Wallpapers</div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
               <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -370,13 +314,6 @@ function App() {
             </div>
           </div>
           <div className="window-body">
-            <p className="panel-intro">
-              Frutiger Aero wallpapers — images from{' '}
-              <a href="https://wallpapercave.com/frutiger-aero-wallpapers" target="_blank" rel="noreferrer">
-                WallpaperCave
-              </a>
-              . 🌿
-            </p>
             <div className="gallery-grid">
               {galleryImages.map((img, i) => (
                 <a
@@ -386,12 +323,7 @@ function App() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <img
-                    src={img.src}
-                    alt={img.label}
-                    className="gallery-img"
-                    loading="lazy"
-                  />
+                  <img src={img.src} alt={img.label} className="gallery-img" loading="lazy" />
                   <div className="gallery-overlay">
                     <span>{img.label}</span>
                   </div>
@@ -401,11 +333,11 @@ function App() {
           </div>
         </section>
 
-        {/* ── Webring Section ── */}
+        {/* ── Webring ── */}
         <section className="grid-panels" id="webring">
           <article className="window panel-window glass">
             <div className="title-bar">
-              <div className="title-bar-text">🌐 aero_webring.url — Neighbors</div>
+              <div className="title-bar-text">🌐 webring.url — Neighbors</div>
               <div className="title-bar-controls" aria-hidden="true">
                 <button type="button" tabIndex="-1" aria-label="Minimize" />
                 <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -413,13 +345,6 @@ function App() {
               </div>
             </div>
             <div className="window-body">
-              <p className="panel-intro">
-                Part of the{' '}
-                <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer">
-                  Aero &amp; Y2K Webring
-                </a>
-                . 🌊
-              </p>
               <div className="webring-grid">
                 {webringMembers.map((member) => (
                   <a
@@ -436,28 +361,18 @@ function App() {
                 ))}
               </div>
               <div className="webring-nav">
-                <a
-                  href="https://frutigeraeroarchive.org/aero_webring"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="push-button aero-btn"
-                >
+                <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
                   ← Prev
                 </a>
-                <span className="webring-badge">🌐 Aero &amp; Y2K Webring</span>
-                <a
-                  href="https://frutigeraeroarchive.org/aero_webring"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="push-button aero-btn"
-                >
+                <span className="webring-badge">🌐 Y2K Webring</span>
+                <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer" className="push-button aero-btn">
                   Next →
                 </a>
               </div>
             </div>
           </article>
 
-          {/* ── Links / Buttons Panel ── */}
+          {/* ── Links ── */}
           <article className="window panel-window glass">
             <div className="title-bar">
               <div className="title-bar-text">🔗 links.ini — Cool Sites</div>
@@ -470,34 +385,20 @@ function App() {
             <div className="window-body" id="links">
               <div className="links-grid">
                 {friendLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    className="link-button"
-                    href={link.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a key={link.name} className="link-button" href={link.url} target="_blank" rel="noreferrer">
                     <span className="link-icon">{link.icon}</span>
                     <span>{link.name}</span>
                   </a>
                 ))}
               </div>
-
-              <div className="button-wall">
-                <h3>88×31 Buttons</h3>
-                <div className="buttons-row">
-                  <div className="pixel-button" title="Made with React">⚛️ React</div>
-                  <div className="pixel-button" title="Frutiger Aero">🌿 Aero</div>
-                  <div className="pixel-button" title="7.css">🪟 7.css</div>
-                  <div className="pixel-button" title="Pokémon Fan">⚡ Poké</div>
-                  <div className="pixel-button" title="Personal Web">🏠 Neocity</div>
-                </div>
+              <div className="panel-gif-container">
+                <img src="/byakuren.gif" alt="Byakuren" className="panel-gif" />
               </div>
             </div>
           </article>
         </section>
 
-        {/* ── Guestbook ── */}
+        {/* ── Guestbook (Functional — JSONBin backend) ── */}
         <section className="window guestbook-window glass" id="guestbook">
           <div className="title-bar">
             <div className="title-bar-text">📝 guestbook.exe — Sign My Guestbook!</div>
@@ -509,31 +410,50 @@ function App() {
           </div>
           <div className="window-body">
             <form className="guestbook-form" onSubmit={handleGuestSubmit}>
-              <div className="field-row guestbook-input-row">
-                <label htmlFor="guestMsg">Your message:</label>
-                <input
-                  id="guestMsg"
-                  type="text"
-                  value={guestMessage}
-                  onChange={(e) => setGuestMessage(e.target.value)}
-                  placeholder="Leave a message..."
-                  maxLength={200}
-                />
+              <div className="guestbook-fields">
+                <div className="field-row guestbook-input-row">
+                  <label htmlFor="guestName">Name:</label>
+                  <input
+                    id="guestName"
+                    type="text"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    placeholder="Your name"
+                    maxLength={30}
+                    required
+                  />
+                </div>
+                <div className="field-row guestbook-input-row">
+                  <label htmlFor="guestMsg">Message:</label>
+                  <input
+                    id="guestMsg"
+                    type="text"
+                    value={guestMessage}
+                    onChange={(e) => setGuestMessage(e.target.value)}
+                    placeholder="Leave a message..."
+                    maxLength={200}
+                    required
+                  />
+                </div>
                 <button type="submit" className="push-button aero-btn">
                   Sign ✍️
                 </button>
               </div>
             </form>
             <div className="guestbook-entries">
-              {guestEntries.map((entry, i) => (
-                <div key={i} className="guestbook-entry">
-                  <div className="entry-header">
-                    <strong>{entry.name}</strong>
-                    <span className="entry-date">{entry.date}</span>
+              {guestEntries.length === 0 ? (
+                <p className="guest-loading">No entries yet — be the first to sign!</p>
+              ) : (
+                guestEntries.map((entry, i) => (
+                  <div key={i} className="guestbook-entry">
+                    <div className="entry-header">
+                      <strong>{entry.name}</strong>
+                      <span className="entry-date">{entry.date}</span>
+                    </div>
+                    <p>{entry.msg}</p>
                   </div>
-                  <p>{entry.msg}</p>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </section>
@@ -542,25 +462,18 @@ function App() {
         <footer className="site-footer">
           <div className="footer-sprites" aria-hidden="true">
             <img src={spriteUrl(25)} alt="" className="footer-sprite" />
+            <img src="/mokou.gif" alt="" className="footer-gif" />
             <img src={spriteUrl(133)} alt="" className="footer-sprite" />
+            <img src="/byakuren.gif" alt="" className="footer-gif" />
             <img src={spriteUrl(1)} alt="" className="footer-sprite" />
           </div>
           <p>
             © {new Date().getFullYear()} LemonMantis5571 — Made with{' '}
-            <a href="https://khang-nd.github.io/7.css/" target="_blank" rel="noreferrer">
-              7.css
-            </a>
-          </p>
-          <p className="footer-sub">
-            Part of the{' '}
-            <a href="https://frutigeraeroarchive.org/aero_webring" target="_blank" rel="noreferrer">
-              Aero &amp; Y2K Webring
-            </a>{' '}
-            🌐
+            <a href="https://khang-nd.github.io/7.css/" target="_blank" rel="noreferrer">7.css</a>
           </p>
           <div className="footer-marquee">
             <div className="marquee-inner">
-              ✨ Welcome to the personal web ✨ The internet still has weather ✨ Glossy surfaces and pixel dreams ✨ Thank you for visiting ✨ Welcome to the personal web ✨ The internet still has weather ✨ Glossy surfaces and pixel dreams ✨ Thank you for visiting ✨
+              ✨ Welcome to my site ✨ Thanks for visiting ✨ Sign the guestbook! ✨ Welcome to my site ✨ Thanks for visiting ✨ Sign the guestbook! ✨
             </div>
           </div>
         </footer>

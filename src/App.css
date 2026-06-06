@@ -51,29 +51,68 @@
   }
 }
 
-/* ── Floating Pokémon ── */
-.floating-pokemon {
+/* ── Decorative GIFs scattered around page ── */
+.deco-gifs {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 2;
 }
 
-.floater-sprite {
+.deco-gif {
   position: absolute;
-  image-rendering: pixelated;
-  opacity: 0.2;
-  filter: drop-shadow(0 0 12px rgba(145, 230, 255, 0.5));
-  animation: sprite-float 5s ease-in-out infinite;
+  opacity: 0.18;
+  filter: drop-shadow(0 0 16px rgba(145, 230, 255, 0.4));
+  animation: gif-float 6s ease-in-out infinite;
+  max-width: 120px;
 }
 
-@keyframes sprite-float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-18px);
-  }
+.deco-gif-1 { left: 2%; top: 12%; animation-delay: 0s; }
+.deco-gif-2 { right: 2%; top: 6%; animation-delay: 1.5s; }
+.deco-gif-3 { right: 3%; bottom: 20%; animation-delay: 3s; }
+.deco-gif-4 { left: 3%; bottom: 8%; animation-delay: 2s; }
+
+@keyframes gif-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* ── GIFs inside panels ── */
+.hero-gifs {
+  display: flex;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.hero-gif {
+  max-height: 100px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(24, 91, 149, 0.15);
+}
+
+.about-gif {
+  max-height: 80px;
+  border-radius: 8px;
+  margin-top: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.panel-gif-container {
+  text-align: center;
+  margin-top: 14px;
+}
+
+.panel-gif {
+  max-height: 90px;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(24, 91, 149, 0.12);
+}
+
+.footer-gif {
+  max-height: 40px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
 }
 
 /* ── Top Bar ── */
@@ -916,11 +955,24 @@
   margin-bottom: 18px;
 }
 
+.guestbook-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .guestbook-input-row {
   display: flex;
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.guest-loading {
+  text-align: center;
+  color: #4a7a94;
+  font-size: 0.88rem;
+  padding: 20px;
 }
 
 .guestbook-input-row label {
@@ -984,6 +1036,7 @@
   display: flex;
   gap: 12px;
   justify-content: center;
+  align-items: center;
   margin-bottom: 14px;
 }
 
@@ -1080,7 +1133,7 @@
     grid-column: span 1;
   }
 
-  .floater-sprite {
+  .deco-gif {
     display: none;
   }
 }
