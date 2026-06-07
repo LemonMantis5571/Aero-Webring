@@ -122,7 +122,7 @@
       },
       {
         "name": "LimeBot-OS",
-        "desc": "A self-hosted, agentic AI assistant with multi-channel support, persistent memory, and a real-time web dashboard",
+        "desc": "A self-hosted assistant with multi-channel support, persistent memory, and a real-time web dashboard",
         "url": "https://github.com/Ethereal-Lemons/LimeBot-OS",
         "lang": "Python",
         "langColor": "#3572a5",
