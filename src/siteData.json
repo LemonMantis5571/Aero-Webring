@@ -1,0 +1,345 @@
+{
+  "site": {
+    "brand": "LemonMantis5571",
+    "heroWindowTitle": "🌿 welcome.exe — Leonel Guerrero",
+    "heroTitle": "Welcome to my site!",
+    "heroSubtitle": "Web Artisan · ES | EN | KR | CN",
+    "heroActions": [
+      {
+        "label": "My Portfolio 💼",
+        "href": "https://www.lemonmantis.dev",
+        "external": true,
+        "variant": "primary"
+      },
+      {
+        "label": "My Projects",
+        "href": "#projects",
+        "external": false,
+        "variant": "alt"
+      },
+      {
+        "label": "Sign Guestbook",
+        "href": "#guestbook",
+        "external": false,
+        "variant": "alt"
+      }
+    ],
+    "tickerPrimary": "★ ようこそ！ ★ Welcome! ★ LemonMantis5571 ★ ポケモン ★ 東方 ★ ゲーム ★ 音楽 ★ ようこそ！ ★ Welcome! ★ LemonMantis5571 ★ ポケモン ★ 東方 ★ ゲーム ★ 音楽 ★",
+    "tickerSecondary": "♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪",
+    "footerTicker": "✿ ありがとう！ ✿ Thanks for visiting! ✿ サインしてね！ ✿ Sign the guestbook! ✿ ありがとう！ ✿ Thanks for visiting! ✿ サインしてね！ ✿ Sign the guestbook! ✿"
+  },
+  "navigation": [
+    {
+      "label": "Portfolio",
+      "href": "https://www.lemonmantis.dev",
+      "external": true
+    },
+    {
+      "label": "About Me",
+      "href": "#about",
+      "external": false
+    },
+    {
+      "label": "Projects",
+      "href": "#projects",
+      "external": false
+    },
+    {
+      "label": "Pokédex",
+      "href": "#pokedex",
+      "external": false
+    },
+    {
+      "label": "Webring",
+      "href": "#webring",
+      "external": false
+    },
+    {
+      "label": "Guestbook",
+      "href": "#guestbook",
+      "external": false
+    },
+    {
+      "label": "Links",
+      "href": "#links",
+      "external": false
+    }
+  ],
+  "about": {
+    "windowTitle": "👤 about_me.txt",
+    "name": "Leonel Guerrero",
+    "handle": "@LemonMantis5571",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/85099589?v=4",
+    "intro": "Hey! Welcome to my site.",
+    "badges": [
+      "🎮 Gamer",
+      "⚡ Pokémon Trainer",
+      "🌐 Web Artisan"
+    ],
+    "fields": [
+      {
+        "label": "Languages:",
+        "value": "ES | EN | KR | CN"
+      },
+      {
+        "label": "Favorite Pokémon:",
+        "value": "Mienshao, Suicune"
+      },
+      {
+        "label": "Repos:",
+        "value": "57 public repositories"
+      }
+    ]
+  },
+  "music": {
+    "windowTitle": "🎵 now_playing.wma",
+    "trackTitle": "Lease",
+    "trackArtist": "Takeshi Abo",
+    "audioSrc": "/LEASE.mp3",
+    "pausedLabel": "Music Player Paused",
+    "playingLabelPrefix": "Now playing:"
+  },
+  "projects": {
+    "windowTitle": "💻 github_projects.exe — Top Repos",
+    "ctaLabel": "View all 57 repos on GitHub →",
+    "ctaHref": "https://github.com/LemonMantis5571",
+    "items": [
+      {
+        "name": "edgestore",
+        "desc": "The best way to add file uploads to React apps",
+        "url": "https://github.com/edgestorejs/edgestore",
+        "lang": "TypeScript",
+        "langColor": "#3178c6",
+        "stars": 453
+      },
+      {
+        "name": "awesome-ucp",
+        "desc": "A curated list of awesome Universal Commerce Protocol (UCP) resources, tools, and implementations",
+        "url": "https://github.com/Upsonic/awesome-ucp",
+        "lang": "Markdown",
+        "langColor": "#083fa1",
+        "stars": 126
+      },
+      {
+        "name": "LimeBot-OS",
+        "desc": "A self-hosted, agentic AI assistant with multi-channel support, persistent memory, and a real-time web dashboard",
+        "url": "https://github.com/Ethereal-Lemons/LimeBot-OS",
+        "lang": "Python",
+        "langColor": "#3572a5",
+        "stars": 16
+      },
+      {
+        "name": "PokeMMO-Utilities",
+        "desc": "PvP utilities for PokeMMO players",
+        "url": "https://github.com/LemonMantis5571/PokeMMO-Utilities",
+        "live": "https://poke-mmo-utilities.vercel.app/",
+        "lang": "TypeScript",
+        "langColor": "#3178c6",
+        "stars": 12
+      },
+      {
+        "name": "SilentFail",
+        "desc": "Monitor Cron Jobs by using a simple Curl command",
+        "url": "https://github.com/Ethereal-Lemons/SilentFail",
+        "lang": "TypeScript",
+        "langColor": "#3178c6",
+        "stars": 7
+      },
+      {
+        "name": "A-mess Visual Novel",
+        "desc": "Visual Novel Project Development",
+        "url": "https://github.com/LemonMantis5571/A-mess-Visual-Novel-Project",
+        "lang": "Python",
+        "langColor": "#3572a5",
+        "stars": 5
+      }
+    ]
+  },
+  "pokemonTeam": [
+    {
+      "name": "Mienshao",
+      "id": 620
+    },
+    {
+      "name": "Suicune",
+      "id": 245
+    },
+    {
+      "name": "Pikachu",
+      "id": 25
+    },
+    {
+      "name": "Eevee",
+      "id": 133
+    },
+    {
+      "name": "Charmander",
+      "id": 4
+    },
+    {
+      "name": "Bulbasaur",
+      "id": 1
+    },
+    {
+      "name": "Squirtle",
+      "id": 7
+    },
+    {
+      "name": "Jigglypuff",
+      "id": 39
+    },
+    {
+      "name": "Gengar",
+      "id": 94
+    },
+    {
+      "name": "Umbreon",
+      "id": 197
+    },
+    {
+      "name": "Gardevoir",
+      "id": 282
+    },
+    {
+      "name": "Lucario",
+      "id": 448
+    }
+  ],
+  "pokedex": {
+    "windowTitle": "⚡ pokedex.exe — My Pokémon Team"
+  },
+  "links": {
+    "windowTitle": "🔗 links.ini — Cool Sites",
+    "webringButtonShow": "Get Webring Badge 🌐",
+    "webringButtonHide": "Hide Webring Widget ✕",
+    "webringDescription": "Copy the HTML code below to link to this webring from your site!",
+    "webringCopyLabel": "Copy HTML Code 📋",
+    "webringCopiedLabel": "Copied! ✅",
+    "webringCode": "<a href=\"https://lemonwebring.xyz\" target=\"_blank\"><img src=\"https://avatars.githubusercontent.com/u/85099589?v=4\" width=\"32\" height=\"32\" style=\"border-radius:50%; vertical-align:middle; margin-right:5px;\" /><span>Lemon Webring</span></a>",
+    "items": [
+      {
+        "name": "Portfolio",
+        "url": "https://www.lemonmantis.dev",
+        "icon": "💼"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/LemonMantis5571",
+        "icon": "🐙"
+      },
+      {
+        "name": "Neocities",
+        "url": "https://neocities.org/",
+        "icon": "🏠"
+      },
+      {
+        "name": "Nekoweb",
+        "url": "https://nekoweb.org/",
+        "icon": "🐱"
+      },
+      {
+        "name": "Frutiger Aero Archive",
+        "url": "https://frutigeraeroarchive.org/",
+        "icon": "🌿"
+      },
+      {
+        "name": "MelonLand Forum",
+        "url": "https://forum.melonland.net/",
+        "icon": "🍈"
+      },
+      {
+        "name": "PokeAPI",
+        "url": "https://pokeapi.co/",
+        "icon": "⚡"
+      }
+    ]
+  },
+  "pet": {
+    "windowTitle": "🐣 pet_adopt.exe — Virtual Pet",
+    "spriteUrl": "https://www.yatta-tempel.de/animierte/lavados-em.gif",
+    "adoptionUrl": "https://www.pokemon-adoption.de",
+    "name": "Meneito",
+    "species": "Lv. 50 Moltres (Lavados)",
+    "tagline": "Adopt one yourself!",
+    "adoptionLabel": "🐣 Pokémon Orphanage",
+    "stats": [
+      {
+        "label": "Hunger",
+        "value": 85,
+        "className": ""
+      },
+      {
+        "label": "Love",
+        "value": 100,
+        "className": "love-fill"
+      },
+      {
+        "label": "Energy",
+        "value": 90,
+        "className": "energy-fill"
+      }
+    ]
+  },
+  "guestbook": {
+    "windowTitle": "📝 guestbook.exe — Sign My Guestbook!",
+    "tip": "💬 Say hello! Sign my live guestbook below. Feel free to leave a comment or emoji.",
+    "iframeSrc": "https://lemonmantis5571.atabook.org",
+    "iframeTitle": "LemonMantis5571 Guestbook"
+  },
+  "npc": {
+    "sprites": {
+      "left": "/byakuren.gif",
+      "right": "/mokou.gif"
+    },
+    "solo": {
+      "byakuren": [
+        "南無三…",
+        "The Dharma guides all ✨",
+        "Have you seen Murasa?",
+        "Peace be with you~",
+        "般若心経…",
+        "I sense great energy here!",
+        "What a lovely website 🌸"
+      ],
+      "mokou": [
+        "…immortality is boring.",
+        "🔥🔥🔥",
+        "Kaguya can go away.",
+        "Anyone got yakitori?",
+        "ずっと生きてる…",
+        "*smokes*",
+        "Nice page, kid."
+      ]
+    },
+    "conversation": [
+      {
+        "a": "Hey Mokou, nice day huh?",
+        "b": "…I guess. Every day is the same for me."
+      },
+      {
+        "a": "Want to grab ramen later?",
+        "b": "Only if you're paying, monk."
+      },
+      {
+        "a": "You should visit the temple!",
+        "b": "I'd burn it down by accident."
+      },
+      {
+        "a": "Mokou, are you okay?",
+        "b": "…define okay. I've been alive 1000+ years."
+      },
+      {
+        "a": "The Pokémon here are cute~",
+        "b": "Mienshao could beat Kaguya."
+      },
+      {
+        "a": "Let's protect this webring!",
+        "b": "Fine. But I get to be the firewall. 🔥"
+      },
+      {
+        "a": "Do you like this music?",
+        "b": "Takeshi Abo slaps, not gonna lie."
+      }
+    ]
+  }
+}

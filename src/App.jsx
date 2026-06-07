@@ -1,149 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-
-/* ── Pokémon sprites (PokeAPI CDN) ── */
-const pokemonTeam = [
-  { name: 'Mienshao', id: 620 },
-  { name: 'Suicune', id: 245 },
-  { name: 'Pikachu', id: 25 },
-  { name: 'Eevee', id: 133 },
-  { name: 'Charmander', id: 4 },
-  { name: 'Bulbasaur', id: 1 },
-  { name: 'Squirtle', id: 7 },
-  { name: 'Jigglypuff', id: 39 },
-  { name: 'Gengar', id: 94 },
-  { name: 'Umbreon', id: 197 },
-  { name: 'Gardevoir', id: 282 },
-  { name: 'Lucario', id: 448 },
-]
+import siteData from './siteData.json'
 
 const spriteUrl = (id) =>
   `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`
 
 const spriteStatic = (id) =>
   `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
-
-/* ── Navigation ── */
-const navLinks = [
-  { label: 'Portfolio', href: 'https://www.lemonmantis.dev', external: true },
-  { label: 'About Me', href: '#about' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Pokédex', href: '#pokedex' },
-  { label: 'Webring', href: '#webring' },
-  { label: 'Guestbook', href: '#guestbook' },
-  { label: 'Links', href: '#links' },
-]
-
-/* ── Projects from GitHub ── */
-const projects = [
-  {
-    name: 'edgestore',
-    desc: 'The best way to add file uploads to React apps',
-    url: 'https://github.com/edgestorejs/edgestore',
-    lang: 'TypeScript',
-    stars: 453,
-  },
-  {
-    name: 'awesome-ucp',
-    desc: 'A curated list of awesome Universal Commerce Protocol (UCP) resources, tools, and implementations',
-    url: 'https://github.com/Upsonic/awesome-ucp',
-    lang: 'Markdown',
-    stars: 126,
-  },
-  {
-    name: 'LimeBot-OS',
-    desc: 'A self-hosted, agentic AI assistant with multi-channel support, persistent memory, and a real-time web dashboard',
-    url: 'https://github.com/Ethereal-Lemons/LimeBot-OS',
-    lang: 'Python',
-    stars: 16,
-  },
-  {
-    name: 'PokeMMO-Utilities',
-    desc: 'PvP utilities for PokeMMO players',
-    url: 'https://github.com/LemonMantis5571/PokeMMO-Utilities',
-    live: 'https://poke-mmo-utilities.vercel.app/',
-    lang: 'TypeScript',
-    stars: 12,
-  },
-  {
-    name: 'SilentFail',
-    desc: 'Monitor Cron Jobs by using a simple Curl command',
-    url: 'https://github.com/Ethereal-Lemons/SilentFail',
-    lang: 'TypeScript',
-    stars: 7,
-  },
-  {
-    name: 'A-mess Visual Novel',
-    desc: 'Visual Novel Project Development',
-    url: 'https://github.com/LemonMantis5571/A-mess-Visual-Novel-Project',
-    lang: 'Python',
-    stars: 5,
-  },
-]
-
-/* ── Webring members ── */
-const webringMembers = [
-  { name: 'Frutiger Aero Archive', url: 'https://frutigeraeroarchive.org/', color: '#2db87e' },
-  { name: 'Lakes', url: 'https://lakes.glamour.ovh/', color: '#13a3ac' },
-  { name: 'Skyweaver', url: 'https://skyweaver.nekoweb.org/', color: '#6a5acd' },
-  { name: 'Clygro', url: 'https://clygro.cc/', color: '#ff6b9d' },
-  { name: 'Pizzacat Delights', url: 'https://pizzacatdelights.nekoweb.org/', color: '#ff8c42' },
-  { name: 'ToxiDev', url: 'https://toxidev.neocities.org/', color: '#42b883' },
-]
-
-/* ── Friend links ── */
-const friendLinks = [
-  { name: 'Portfolio', url: 'https://www.lemonmantis.dev', icon: '💼' },
-  { name: 'GitHub', url: 'https://github.com/LemonMantis5571', icon: '🐙' },
-  { name: 'Neocities', url: 'https://neocities.org/', icon: '🏠' },
-  { name: 'Nekoweb', url: 'https://nekoweb.org/', icon: '🐱' },
-  { name: 'Frutiger Aero Archive', url: 'https://frutigeraeroarchive.org/', icon: '🌿' },
-  { name: 'MelonLand Forum', url: 'https://forum.melonland.net/', icon: '🍈' },
-  { name: 'PokeAPI', url: 'https://pokeapi.co/', icon: '⚡' },
-]
-
-/* ── Language color map ── */
-const langColors = {
-  TypeScript: '#3178c6',
-  Python: '#3572a5',
-  HTML: '#e34c26',
-  Java: '#b07219',
-  Markdown: '#083fa1',
-}
-
-/* ── NPC Conversation Lines ── */
-const npcDialogues = {
-  solo: {
-    byakuren: [
-      '南無三…',
-      'The Dharma guides all ✨',
-      'Have you seen Murasa?',
-      'Peace be with you~',
-      '般若心経…',
-      'I sense great energy here!',
-      'What a lovely website 🌸',
-    ],
-    mokou: [
-      '…immortality is boring.',
-      '🔥🔥🔥',
-      'Kaguya can go away.',
-      'Anyone got yakitori?',
-      'ずっと生きてる…',
-      '*smokes*',
-      'Nice page, kid.',
-    ],
-  },
-  conversation: [
-    { a: 'Hey Mokou, nice day huh?', b: '…I guess. Every day is the same for me.' },
-    { a: 'Want to grab ramen later?', b: 'Only if you\'re paying, monk.' },
-    { a: 'You should visit the temple!', b: 'I\'d burn it down by accident.' },
-    { a: 'Mokou, are you okay?', b: '…define okay. I\'ve been alive 1000+ years.' },
-    { a: 'The Pokémon here are cute~', b: 'Mienshao could beat Kaguya.' },
-    { a: 'BLACKPINK in your area! 🩷', b: '…did you just quote a K-pop song?' },
-    { a: 'Let\'s protect this webring!', b: 'Fine. But I get to be the firewall. 🔥' },
-    { a: 'Do you like this music?', b: 'Takeshi Abo slaps, not gonna lie.' },
-  ],
-}
 
 /* ── Walking NPCs with conversation system ── */
 function NpcLayer() {
@@ -231,7 +94,7 @@ function NpcLayer() {
 
         if (closeness < 250 && chatCooldown.current <= 0 && Math.random() < 0.45) {
           // Conversation!
-          const convo = npcDialogues.conversation[Math.floor(Math.random() * npcDialogues.conversation.length)]
+          const convo = siteData.npc.conversation[Math.floor(Math.random() * siteData.npc.conversation.length)]
           setBubble1(convo.a)
           setTimeout(() => setBubble2(convo.b), 1200)
           setTimeout(() => { setBubble1(null); setBubble2(null) }, 5000)
@@ -239,13 +102,13 @@ function NpcLayer() {
         } else {
           // Solo chatter
           if (soloCooldown1.current <= 0 && Math.random() < 0.08) {
-            const lines = npcDialogues.solo.byakuren
+            const lines = siteData.npc.solo.byakuren
             setBubble1(lines[Math.floor(Math.random() * lines.length)])
             setTimeout(() => setBubble1(null), 3500)
             soloCooldown1.current = 8
           }
           if (soloCooldown2.current <= 0 && Math.random() < 0.08) {
-            const lines = npcDialogues.solo.mokou
+            const lines = siteData.npc.solo.mokou
             setBubble2(lines[Math.floor(Math.random() * lines.length)])
             setTimeout(() => setBubble2(null), 3500)
             soloCooldown2.current = 8
@@ -264,11 +127,11 @@ function NpcLayer() {
     <div className="npc-layer" aria-hidden="true">
       <div ref={npc1Ref} className="npc">
         {bubble1 && <div className="npc-bubble npc-bubble-left">{bubble1}</div>}
-        <img src="/byakuren.gif" alt="" className="npc-sprite" />
+        <img src={siteData.npc.sprites.left} alt="" className="npc-sprite" />
       </div>
       <div ref={npc2Ref} className="npc">
         {bubble2 && <div className="npc-bubble npc-bubble-right">{bubble2}</div>}
-        <img src="/mokou.gif" alt="" className="npc-sprite" />
+        <img src={siteData.npc.sprites.right} alt="" className="npc-sprite" />
       </div>
     </div>
   )
@@ -329,7 +192,7 @@ function App() {
   }
 
   const handleCopyWebringCode = () => {
-    const codeSnippet = `<a href="https://lemonwebring.xyz" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>Lemon Webring</span></a>`
+    const codeSnippet = siteData.links.webringCode
     navigator.clipboard.writeText(codeSnippet)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -340,7 +203,7 @@ function App() {
       <Bubbles />
       
       {/* Hidden background audio element */}
-      <audio ref={audioRef} src="/LEASE.mp3" loop />
+      <audio ref={audioRef} src={siteData.music.audioSrc} loop />
 
       {/* Walking NPCs — roam the entire page and chat */}
       <NpcLayer />
@@ -349,10 +212,10 @@ function App() {
       <header className="topbar">
         <div className="brand-pill">
           <span className="brand-orb" aria-hidden="true" />
-          LemonMantis5571
+          {siteData.site.brand}
         </div>
         <nav className="quick-links" aria-label="Quick links">
-          {navLinks.map((link) => (
+          {siteData.navigation.map((link) => (
             <a 
               key={link.label} 
               href={link.href}
@@ -374,7 +237,7 @@ function App() {
         <section className="window hero-window glass active" aria-labelledby="hero-title">
           <div className="title-bar">
             <div className="title-bar-text" id="hero-title">
-              🌿 welcome.exe — Leonel Guerrero
+              {siteData.site.heroWindowTitle}
             </div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
@@ -384,40 +247,42 @@ function App() {
           </div>
           <div className="window-body hero-body">
             <div className="hero-copy">
-              <h1>Welcome to my site!</h1>
-              <p className="hero-subtitle">Web Artisan · ES | EN | KR | CN</p>
+              <h1>{siteData.site.heroTitle}</h1>
+              <p className="hero-subtitle">{siteData.site.heroSubtitle}</p>
 
               <div className="hero-actions">
-                <a className="push-button aero-btn" href="https://www.lemonmantis.dev" target="_blank" rel="noreferrer">
-                  My Portfolio 💼
-                </a>
-                <a className="push-button aero-btn alt" href="#projects">
-                  My Projects
-                </a>
-                <a className="push-button aero-btn alt" href="#guestbook">
-                  Sign Guestbook
-                </a>
+                {siteData.site.heroActions.map((action) => (
+                  <a
+                    key={action.label}
+                    className={`push-button aero-btn${action.variant === 'alt' ? ' alt' : ''}`}
+                    href={action.href}
+                    target={action.external ? "_blank" : undefined}
+                    rel={action.external ? "noreferrer" : undefined}
+                  >
+                    {action.label}
+                  </a>
+                ))}
               </div>
             </div>
 
             <div className="hero-visual" aria-hidden="true">
               <div className="pokemon-showcase">
-                <img src={spriteUrl(620)} alt="" className="showcase-sprite bounce-1" />
-                <img src={spriteUrl(245)} alt="" className="showcase-sprite bounce-2 showcase-large" />
-                <img src={spriteUrl(25)} alt="" className="showcase-sprite bounce-3" />
+                <img src={spriteUrl(siteData.pokemonTeam[0].id)} alt="" className="showcase-sprite bounce-1" />
+                <img src={spriteUrl(siteData.pokemonTeam[1].id)} alt="" className="showcase-sprite bounce-2 showcase-large" />
+                <img src={spriteUrl(siteData.pokemonTeam[2].id)} alt="" className="showcase-sprite bounce-3" />
               </div>
             </div>
           </div>
           <div className="status-bar">
             <p className="status-bar-field">🌤️ {currentTime.toLocaleDateString()}</p>
-            <p className="status-bar-field">🎵 {isPlaying ? 'Now playing: Lease - Takeshi Abo' : 'Music Player Paused'}</p>
+            <p className="status-bar-field">🎵 {isPlaying ? `${siteData.music.playingLabelPrefix} ${siteData.music.trackTitle} - ${siteData.music.trackArtist}` : siteData.music.pausedLabel}</p>
           </div>
         </section>
 
         {/* ── Japanese-style marquee ticker ── */}
         <div className="jp-ticker">
           <div className="jp-ticker-inner">
-            <span>★ ようこそ！ ★ Welcome! ★ LemonMantis5571 ★ ポケモン ★ 東方 ★ ゲーム ★ 音楽 ★ ようこそ！ ★ Welcome! ★ LemonMantis5571 ★ ポケモン ★ 東方 ★ ゲーム ★ 音楽 ★</span>
+            <span>{siteData.site.tickerPrimary}</span>
           </div>
         </div>
 
@@ -425,7 +290,7 @@ function App() {
         <section className="grid-panels" id="about">
           <article className="window panel-window glass">
             <div className="title-bar">
-              <div className="title-bar-text">👤 about_me.txt</div>
+              <div className="title-bar-text">{siteData.about.windowTitle}</div>
               <div className="title-bar-controls" aria-hidden="true">
                 <button type="button" tabIndex="-1" aria-label="Minimize" />
                 <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -436,36 +301,30 @@ function App() {
               <div className="about-avatar-section">
                 <div className="avatar-frame">
                   <img
-                    src="https://avatars.githubusercontent.com/u/85099589?v=4"
-                    alt="Leonel Guerrero"
+                    src={siteData.about.avatarUrl}
+                    alt={siteData.about.name}
                     className="avatar-github"
                   />
                 </div>
-                <h2 className="about-username">Leonel Guerrero</h2>
-                <p className="about-handle">@LemonMantis5571</p>
+                <h2 className="about-username">{siteData.about.name}</h2>
+                <p className="about-handle">{siteData.about.handle}</p>
                 <div className="about-badges">
-                  <span className="about-badge">🎮 Gamer</span>
-                  <span className="about-badge">⚡ Pokémon Trainer</span>
-                  <span className="about-badge">🌐 Web Artisan</span>
+                  {siteData.about.badges.map((badge) => (
+                    <span key={badge} className="about-badge">{badge}</span>
+                  ))}
                 </div>
               </div>
               <div className="about-text">
-                <p>Hey! Welcome to my site.</p>
-                <div className="field-row about-field">
-                  <label>Languages:</label>
-                  <span>ES | EN | KR | CN</span>
-                </div>
-                <div className="field-row about-field">
-                  <label>Favorite Pokémon:</label>
-                  <span>Mienshao, Suicune</span>
-                </div>
-                <div className="field-row about-field">
-                  <label>Repos:</label>
-                  <span>57 public repositories</span>
-                </div>
+                <p>{siteData.about.intro}</p>
+                {siteData.about.fields.map((field) => (
+                  <div key={field.label} className="field-row about-field">
+                    <label>{field.label}</label>
+                    <span>{field.value}</span>
+                  </div>
+                ))}
                 <div className="about-fav-sprites">
-                  <img src={spriteUrl(620)} alt="Mienshao" className="fav-sprite" />
-                  <img src={spriteUrl(245)} alt="Suicune" className="fav-sprite fav-sprite-large" />
+                  <img src={spriteUrl(siteData.pokemonTeam[0].id)} alt={siteData.pokemonTeam[0].name} className="fav-sprite" />
+                  <img src={spriteUrl(siteData.pokemonTeam[1].id)} alt={siteData.pokemonTeam[1].name} className="fav-sprite fav-sprite-large" />
                 </div>
               </div>
             </div>
@@ -474,7 +333,7 @@ function App() {
           {/* ── Now Playing ── */}
           <article className="window panel-window glass status-panel">
             <div className="title-bar">
-              <div className="title-bar-text">🎵 now_playing.wma</div>
+              <div className="title-bar-text">{siteData.music.windowTitle}</div>
               <div className="title-bar-controls" aria-hidden="true">
                 <button type="button" tabIndex="-1" aria-label="Minimize" />
                 <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -489,8 +348,8 @@ function App() {
                   ))}
                 </div>
                 <div className="track-info">
-                  <span className="track-title">Lease</span>
-                  <span className="track-artist">Takeshi Abo</span>
+                  <span className="track-title">{siteData.music.trackTitle}</span>
+                  <span className="track-artist">{siteData.music.trackArtist}</span>
                 </div>
                 <div className="music-controls">
                   <button className="music-btn" type="button" onClick={() => { if (audioRef.current) audioRef.current.currentTime = 0 }} aria-label="Restart song">⏮</button>
@@ -512,7 +371,7 @@ function App() {
         {/* ── Projects from GitHub ── */}
         <section className="window projects-window glass" id="projects">
           <div className="title-bar">
-            <div className="title-bar-text">💻 github_projects.exe — Top Repos</div>
+            <div className="title-bar-text">{siteData.projects.windowTitle}</div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
               <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -521,7 +380,7 @@ function App() {
           </div>
           <div className="window-body">
             <div className="projects-grid">
-              {projects.map((proj) => (
+              {siteData.projects.items.map((proj) => (
                 <a
                   key={proj.name}
                   className="project-card"
@@ -539,7 +398,7 @@ function App() {
                   <div className="project-footer">
                     <span
                       className="project-lang"
-                      style={{ '--lang-color': langColors[proj.lang] || '#666' }}
+                      style={{ '--lang-color': proj.langColor || '#666' }}
                     >
                       <span className="lang-dot" />
                       {proj.lang}
@@ -553,12 +412,12 @@ function App() {
             </div>
             <div className="projects-cta">
               <a
-                href="https://github.com/LemonMantis5571"
+                href={siteData.projects.ctaHref}
                 target="_blank"
                 rel="noreferrer"
                 className="push-button aero-btn"
               >
-                View all 57 repos on GitHub →
+                {siteData.projects.ctaLabel}
               </a>
             </div>
           </div>
@@ -584,14 +443,14 @@ function App() {
         {/* ── Japanese-style ticker 2 ── */}
         <div className="jp-ticker jp-ticker-reverse">
           <div className="jp-ticker-inner">
-            <span>♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪ 好きなポケモン → ミエンシャオ & スイクン ♪ Mienshao & Suicune ♪</span>
+            <span>{siteData.site.tickerSecondary}</span>
           </div>
         </div>
 
         {/* ── Pokédex ── */}
         <section className="window pokedex-window glass" id="pokedex">
           <div className="title-bar">
-            <div className="title-bar-text">⚡ pokedex.exe — My Pokémon Team</div>
+            <div className="title-bar-text">{siteData.pokedex.windowTitle}</div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
               <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -600,7 +459,7 @@ function App() {
           </div>
           <div className="window-body">
             <div className="pokemon-grid">
-              {pokemonTeam.map((poke) => (
+              {siteData.pokemonTeam.map((poke) => (
                 <PokemonCard key={poke.id} pokemon={poke} />
               ))}
             </div>
@@ -616,7 +475,7 @@ function App() {
         <section className="grid-panels" id="webring">
           <article className="window panel-window glass">
             <div className="title-bar">
-              <div className="title-bar-text">🔗 links.ini — Cool Sites</div>
+              <div className="title-bar-text">{siteData.links.windowTitle}</div>
               <div className="title-bar-controls" aria-hidden="true">
                 <button type="button" tabIndex="-1" aria-label="Minimize" />
                 <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -625,7 +484,7 @@ function App() {
             </div>
             <div className="window-body" id="links">
               <div className="links-grid">
-                {friendLinks.map((link) => (
+                {siteData.links.items.map((link) => (
                   <a key={link.name} className="link-button" href={link.url} target="_blank" rel="noreferrer">
                     <span className="link-icon">{link.icon}</span>
                     <span>{link.name}</span>
@@ -634,32 +493,32 @@ function App() {
               </div>
 
               <div className="links-webring-share">
-                <button
-                  type="button"
-                  className="push-button aero-btn links-webring-btn"
-                  onClick={() => setShowWebringModal(!showWebringModal)}
-                >
-                  {showWebringModal ? 'Hide Webring Widget ✕' : 'Get Webring Badge 🌐'}
-                </button>
+                  <button
+                    type="button"
+                    className="push-button aero-btn links-webring-btn"
+                    onClick={() => setShowWebringModal(!showWebringModal)}
+                  >
+                    {showWebringModal ? siteData.links.webringButtonHide : siteData.links.webringButtonShow}
+                  </button>
 
-                {showWebringModal && (
-                  <div className="links-webring-panel">
-                    <p className="links-webring-desc">
-                      Copy the HTML code below to link to this webring from your site!
-                    </p>
-                    <textarea
-                      className="webring-code-box"
-                      readOnly
-                      value={`<a href="https://lemonwebring.xyz" target="_blank"><img src="https://avatars.githubusercontent.com/u/85099589?v=4" width="32" height="32" style="border-radius:50%; vertical-align:middle; margin-right:5px;" /><span>Lemon Webring</span></a>`}
-                      onClick={(e) => e.target.select()}
-                    />
+                  {showWebringModal && (
+                    <div className="links-webring-panel">
+                      <p className="links-webring-desc">
+                        {siteData.links.webringDescription}
+                      </p>
+                      <textarea
+                        className="webring-code-box"
+                        readOnly
+                        value={siteData.links.webringCode}
+                        onClick={(e) => e.target.select()}
+                      />
                     <div className="links-webring-row">
                       <button
                         type="button"
                         className="push-button aero-btn alt"
                         onClick={handleCopyWebringCode}
                       >
-                        {copied ? 'Copied! ✅' : 'Copy HTML Code 📋'}
+                        {copied ? siteData.links.webringCopiedLabel : siteData.links.webringCopyLabel}
                       </button>
                     </div>
                   </div>
@@ -670,7 +529,7 @@ function App() {
 
           <article className="window panel-window glass pet-window">
             <div className="title-bar">
-              <div className="title-bar-text">🐣 pet_adopt.exe — Virtual Pet</div>
+              <div className="title-bar-text">{siteData.pet.windowTitle}</div>
               <div className="title-bar-controls" aria-hidden="true">
                 <button type="button" tabIndex="-1" aria-label="Minimize" />
                 <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -681,50 +540,40 @@ function App() {
               <div className="pet-display">
                 <div className="pet-habitat">
                   <div className="pet-glow-aura" />
-                  <a href="https://www.pokemon-adoption.de" target="_blank" rel="noreferrer" className="pet-sprite-link">
+                  <a href={siteData.pet.adoptionUrl} target="_blank" rel="noreferrer" className="pet-sprite-link">
                     <img
-                      src="https://www.yatta-tempel.de/animierte/lavados-em.gif"
-                      alt="Lavados (Moltres) sprite"
+                      src={siteData.pet.spriteUrl}
+                      alt={siteData.pet.species}
                       className="pet-animated-sprite"
                     />
                   </a>
                 </div>
                 <div className="pet-info">
-                  <h3 className="pet-name">Meneito</h3>
-                  <p className="pet-species">Lv. 50 Moltres (Lavados)</p>
+                  <h3 className="pet-name">{siteData.pet.name}</h3>
+                  <p className="pet-species">{siteData.pet.species}</p>
                 </div>
               </div>
 
               <div className="pet-stats">
-                <div className="pet-stat-row">
-                  <span className="pet-stat-label">Hunger</span>
-                  <div className="pet-stat-bar">
-                    <div className="pet-stat-fill" style={{ width: '85%' }} />
+                {siteData.pet.stats.map((stat) => (
+                  <div key={stat.label} className="pet-stat-row">
+                    <span className="pet-stat-label">{stat.label}</span>
+                    <div className="pet-stat-bar">
+                      <div className={`pet-stat-fill ${stat.className}`.trim()} style={{ width: `${stat.value}%` }} />
+                    </div>
                   </div>
-                </div>
-                <div className="pet-stat-row">
-                  <span className="pet-stat-label">Love</span>
-                  <div className="pet-stat-bar">
-                    <div className="pet-stat-fill love-fill" style={{ width: '100%' }} />
-                  </div>
-                </div>
-                <div className="pet-stat-row">
-                  <span className="pet-stat-label">Energy</span>
-                  <div className="pet-stat-bar">
-                    <div className="pet-stat-fill energy-fill" style={{ width: '90%' }} />
-                  </div>
-                </div>
+                ))}
               </div>
 
               <div className="pet-adoption-cta">
-                <span className="pet-tagline">Adopt one yourself!</span>
+                <span className="pet-tagline">{siteData.pet.tagline}</span>
                 <a
-                  href="https://www.pokemon-adoption.de"
+                  href={siteData.pet.adoptionUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="push-button aero-btn alt pet-adopt-btn"
                 >
-                  🐣 Pokémon Orphanage
+                  {siteData.pet.adoptionLabel}
                 </a>
               </div>
             </div>
@@ -734,7 +583,7 @@ function App() {
         {/* ── Guestbook ── */}
         <section className="window guestbook-window glass" id="guestbook">
           <div className="title-bar">
-            <div className="title-bar-text">📝 guestbook.exe — Sign My Guestbook!</div>
+            <div className="title-bar-text">{siteData.guestbook.windowTitle}</div>
             <div className="title-bar-controls" aria-hidden="true">
               <button type="button" tabIndex="-1" aria-label="Minimize" />
               <button type="button" tabIndex="-1" aria-label="Maximize" />
@@ -743,12 +592,12 @@ function App() {
           </div>
           <div className="window-body">
             <p className="guestbook-tip">
-              💬 Say hello! Sign my live guestbook below. Feel free to leave a comment or emoji.
+              {siteData.guestbook.tip}
             </p>
             <div className="guestbook-iframe-container">
               <iframe
-                src="https://lemonmantis5571.atabook.org"
-                title="LemonMantis5571 Guestbook"
+                src={siteData.guestbook.iframeSrc}
+                title={siteData.guestbook.iframeTitle}
                 className="guestbook-iframe"
                 scrolling="yes"
               />
@@ -759,9 +608,9 @@ function App() {
         {/* ── Footer ── */}
         <footer className="site-footer">
           <div className="footer-sprites" aria-hidden="true">
-            <img src={spriteUrl(620)} alt="" className="footer-sprite" />
-            <img src={spriteUrl(245)} alt="" className="footer-sprite footer-sprite-large" />
-            <img src={spriteUrl(25)} alt="" className="footer-sprite" />
+            <img src={spriteUrl(siteData.pokemonTeam[0].id)} alt="" className="footer-sprite" />
+            <img src={spriteUrl(siteData.pokemonTeam[1].id)} alt="" className="footer-sprite footer-sprite-large" />
+            <img src={spriteUrl(siteData.pokemonTeam[2].id)} alt="" className="footer-sprite" />
           </div>
           <p>
             © {new Date().getFullYear()} Leonel Guerrero — Made with{' '}
@@ -769,7 +618,7 @@ function App() {
           </p>
           <div className="jp-ticker jp-ticker-footer">
             <div className="jp-ticker-inner">
-              <span>✿ ありがとう！ ✿ Thanks for visiting! ✿ サインしてね！ ✿ Sign the guestbook! ✿ ありがとう！ ✿ Thanks for visiting! ✿ サインしてね！ ✿ Sign the guestbook! ✿</span>
+              <span>{siteData.site.footerTicker}</span>
             </div>
           </div>
         </footer>
