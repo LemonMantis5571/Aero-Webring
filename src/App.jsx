@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 import siteData from './siteData.json'
 
@@ -623,6 +624,7 @@ function App() {
           </div>
         </footer>
       </main>
+      <Analytics />
     </div>
   )
 }
