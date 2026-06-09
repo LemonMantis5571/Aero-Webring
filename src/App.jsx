@@ -520,14 +520,6 @@ function App() {
                       >
                         {copied ? siteData.links.webringCopiedLabel : siteData.links.webringCopyLabel}
                       </button>
-                      <a
-                        href={siteData.links.webringSourceHref}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="push-button aero-btn"
-                      >
-                        {siteData.links.webringSourceLabel}
-                      </a>
                     </div>
                   </div>
                 )}
@@ -620,6 +612,20 @@ function App() {
             <img src={spriteUrl(siteData.pokemonTeam[1].id)} alt="" className="footer-sprite footer-sprite-large" />
             <img src={spriteUrl(siteData.pokemonTeam[2].id)} alt="" className="footer-sprite" />
           </div>
+          <a
+            href={siteData.links.webringSourceHref}
+            target="_blank"
+            rel="noreferrer"
+            className="footer-source-link"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="footer-source-icon">
+              <path
+                fill="currentColor"
+                d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.57.11.78-.25.78-.55 0-.27-.01-1.17-.01-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.69.08-.69 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.67 1.24 3.32.95.1-.74.4-1.24.72-1.53-2.55-.29-5.23-1.27-5.23-5.67 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.14 1.17A10.9 10.9 0 0 1 12 6.03c.97 0 1.95.13 2.86.38 2.18-1.48 3.13-1.17 3.13-1.17.63 1.59.24 2.76.12 3.05.74.8 1.18 1.82 1.18 3.07 0 4.41-2.69 5.37-5.26 5.66.41.36.78 1.06.78 2.14 0 1.55-.01 2.79-.01 3.17 0 .3.2.67.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
+              />
+            </svg>
+            <span>{siteData.links.webringSourceLabel}</span>
+          </a>
           <p>
             © {new Date().getFullYear()} Leonel Guerrero — Made with{' '}
             <a href="https://khang-nd.github.io/7.css/" target="_blank" rel="noreferrer">7.css</a>
