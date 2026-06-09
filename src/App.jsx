@@ -520,6 +520,14 @@ function App() {
                       >
                         {copied ? siteData.links.webringCopiedLabel : siteData.links.webringCopyLabel}
                       </button>
+                      <a
+                        href={siteData.links.webringSourceHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="push-button aero-btn"
+                      >
+                        {siteData.links.webringSourceLabel}
+                      </a>
                     </div>
                   </div>
                 )}

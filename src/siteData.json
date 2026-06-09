@@ -215,6 +215,8 @@
     "webringDescription": "Copy the HTML code below to link to this webring from your site!",
     "webringCopyLabel": "Copy HTML Code 📋",
     "webringCopiedLabel": "Copied! ✅",
+    "webringSourceLabel": "Source Code 💻",
+    "webringSourceHref": "https://github.com/LemonMantis5571/Aero-Webring",
     "webringCode": "<a href=\"https://lemonwebring.xyz\" target=\"_blank\"><img src=\"https://avatars.githubusercontent.com/u/85099589?v=4\" width=\"32\" height=\"32\" style=\"border-radius:50%; vertical-align:middle; margin-right:5px;\" /><span>Lemon Webring</span></a>",
     "items": [
       {

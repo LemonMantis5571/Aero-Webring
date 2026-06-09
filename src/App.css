@@ -2010,10 +2010,12 @@ button.push-button.aero-btn.alt {
 .links-webring-row {
   display: flex;
   justify-content: center;
+  gap: 10px;
   width: 100%;
 }
 
-.links-webring-row button {
+.links-webring-row button,
+.links-webring-row a {
   width: 100%;
 }
 
