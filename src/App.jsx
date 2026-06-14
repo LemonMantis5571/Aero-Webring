@@ -166,6 +166,17 @@ function Bubbles() {
   )
 }
 
+/* ── Soft drifting clouds ── */
+function Clouds() {
+  return (
+    <div className="clouds-layer" aria-hidden="true">
+      <div className="cloud cloud-1" />
+      <div className="cloud cloud-2" />
+      <div className="cloud cloud-3" />
+    </div>
+  )
+}
+
 /* ── Main App ── */
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -201,7 +212,8 @@ function App() {
   return (
     <div className="aero-shell">
       <Bubbles />
-      
+      <Clouds />
+
       {/* Hidden background audio element */}
       <audio ref={audioRef} src={siteData.music.audioSrc} loop />
 

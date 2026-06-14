@@ -538,10 +538,10 @@
   gap: 10px;
   padding: 10px 20px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.38);
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.48);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
     0 12px 30px rgba(27, 73, 124, 0.18);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -581,8 +581,8 @@
   text-decoration: none;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(15, 76, 140, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 76, 140, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font-size: 0.88rem;
@@ -602,8 +602,8 @@
   gap: 6px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.58);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font-size: 0.88rem;
@@ -627,15 +627,15 @@
 
 /* ── Glass Windows Override ── */
 .window.glass {
-  background: rgba(255, 255, 255, 0.22) !important;
-  backdrop-filter: blur(18px) saturate(1.5) !important;
-  -webkit-backdrop-filter: blur(18px) saturate(1.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  background: rgba(255, 255, 255, 0.36) !important;
+  backdrop-filter: blur(22px) saturate(1.65) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
   border-radius: 10px !important;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.6) inset,
-    0 20px 50px rgba(24, 91, 149, 0.18),
-    0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 24px 60px rgba(10, 55, 90, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.12) !important;
   overflow: hidden;
 }
 
