@@ -435,18 +435,40 @@
   color: #0d4162;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(229, 250, 255, 0.3));
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.8) inset,
     0 8px 20px rgba(40, 111, 163, 0.1);
-  transition: all 250ms ease;
+  transition: all 300ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.project-card:hover::before {
+  left: 150%;
+  transition: left 0.8s ease;
 }
 
 .project-card:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 14px 32px rgba(40, 111, 163, 0.18);
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 14px 32px rgba(40, 111, 163, 0.18),
+    0 0 12px rgba(145, 230, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.85);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(206, 244, 255, 0.45));
 }
@@ -627,16 +649,18 @@
 
 /* ── Glass Windows Override ── */
 .window.glass {
-  background: rgba(255, 255, 255, 0.36) !important;
-  backdrop-filter: blur(22px) saturate(1.65) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(1.65) !important;
-  border: 1px solid rgba(255, 255, 255, 0.65) !important;
-  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.28) !important;
+  backdrop-filter: blur(25px) saturate(1.8) !important;
+  -webkit-backdrop-filter: blur(25px) saturate(1.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  border-radius: 12px !important;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.75) inset,
-    0 24px 60px rgba(10, 55, 90, 0.22),
-    0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.35) inset,
+    0 18px 45px rgba(10, 45, 80, 0.24),
+    0 0 0 1px rgba(0, 0, 0, 0.12) !important;
   overflow: hidden;
+  position: relative;
 }
 
 .window.glass .title-bar {
@@ -743,8 +767,21 @@ button.push-button.aero-btn {
 
 /* Disable 7.css glass highlights and backgrounds on buttons using these styles */
 .push-button.aero-btn::before,
+button.push-button.aero-btn::before {
+  content: '' !important;
+  display: block !important;
+  position: absolute;
+  top: 1px;
+  left: 5%;
+  right: 5%;
+  height: 38%;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%) !important;
+  pointer-events: none;
+  opacity: 1 !important;
+}
+
 .push-button.aero-btn::after,
-button.push-button.aero-btn::before,
 button.push-button.aero-btn::after {
   content: none !important;
   display: none !important;
@@ -755,8 +792,9 @@ button.push-button.aero-btn::after {
 button.push-button.aero-btn:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.92) inset,
-    0 16px 32px rgba(54, 133, 181, 0.25);
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 16px 32px rgba(54, 133, 181, 0.28),
+    0 0 10px rgba(122, 219, 255, 0.5) !important;
   color: #0c334c !important;
 }
 
@@ -1145,13 +1183,34 @@ button.push-button.aero-btn.alt {
     0 8px 20px rgba(40, 111, 163, 0.1);
   cursor: pointer;
   transition: all 250ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pokemon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.pokemon-card:hover::before {
+  left: 150%;
+  transition: left 0.8s ease;
 }
 
 .pokemon-card:hover {
   transform: translateY(-6px) scale(1.04);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 16px 36px rgba(40, 111, 163, 0.18);
+    0 16px 36px rgba(40, 111, 163, 0.18),
+    0 0 10px rgba(145, 230, 255, 0.35);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(206, 244, 255, 0.5));
 }
@@ -1279,12 +1338,35 @@ button.push-button.aero-btn.alt {
   background: rgba(255, 255, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.45);
   transition: all 200ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: skewX(-25deg);
+  transition: none;
+  pointer-events: none;
+}
+
+.link-button:hover::before {
+  left: 150%;
+  transition: left 0.8s ease;
 }
 
 .link-button:hover {
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 4px 12px rgba(145, 230, 255, 0.3);
+  box-shadow: 
+    0 4px 12px rgba(145, 230, 255, 0.35),
+    0 0 8px rgba(145, 230, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
 .link-icon {
@@ -2055,6 +2137,81 @@ button.push-button.aero-btn.alt {
 .links-webring-row button,
 .links-webring-row a {
   width: 100%;
+}
+
+/* ============================================
+   WATER DROPLETS ON GLASS & NOSTALGIA DETAILED POLISH
+   ============================================ */
+
+.water-droplets-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.water-droplet {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  box-shadow:
+    inset 1.5px 1.5px 3px rgba(0, 0, 0, 0.38),
+    inset -1.5px -1.5px 3px rgba(255, 255, 255, 0.45),
+    1px 1.5px 2px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  will-change: transform;
+  pointer-events: auto; /* enable fun wiggling on hover! */
+  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.water-droplet:hover {
+  transform: scale(1.3) translate3d(2px, 1px, 0);
+}
+
+.water-droplet::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 32%;
+  height: 28%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50% 60% 50% 40%;
+  transform: rotate(-30deg);
+}
+
+/* ── Vista Media Player Buttons ── */
+.music-btn {
+  border: 1.5px solid rgba(91, 148, 198, 0.6) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(225, 245, 255, 0.95) 48%, rgba(195, 235, 255, 0.9) 50%, rgba(165, 220, 255, 0.85)) !important;
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.45) inset,
+    0 2px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.play-btn {
+  background: linear-gradient(180deg, #b0f5ff 0%, #60beff 48%, #208cff 50%, #007aff 100%) !important;
+  border-color: rgba(0, 122, 255, 0.7) !important;
+}
+
+.play-btn:hover {
+  background: linear-gradient(180deg, #d2f9ff 0%, #82d2ff 48%, #4ba3ff 50%, #208cff 100%) !important;
+}
+
+/* ── Pet habitat glow accent ── */
+.pet-habitat {
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.75), transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(255, 120, 0, 0.22), transparent 75%),
+    rgba(255, 255, 255, 0.25) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 0 0 1px rgba(255, 255, 255, 0.3) inset,
+    0 8px 24px rgba(24, 91, 149, 0.15) !important;
 }
 
 

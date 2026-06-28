@@ -177,6 +177,37 @@ function Clouds() {
   )
 }
 
+/* ── Water Droplets ── */
+function WaterDroplets({ count = 8 }) {
+  const [drops] = useState(() =>
+    Array.from({ length: count }, (_, i) => ({
+      id: i,
+      left: 5 + Math.random() * 90,
+      top: 5 + Math.random() * 90,
+      size: 6 + Math.random() * 12,
+      delay: Math.random() * 3
+    }))
+  );
+
+  return (
+    <div className="water-droplets-overlay" aria-hidden="true">
+      {drops.map((d) => (
+        <div
+          key={d.id}
+          className="water-droplet"
+          style={{
+            left: `${d.left}%`,
+            top: `${d.top}%`,
+            width: `${d.size}px`,
+            height: `${d.size * 0.9}px`,
+            animationDelay: `${d.delay}s`
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 /* ── Main App ── */
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -258,6 +289,7 @@ function App() {
             </div>
           </div>
           <div className="window-body hero-body">
+            <WaterDroplets count={8} />
             <div className="hero-copy">
               <h1>{siteData.site.heroTitle}</h1>
               <p className="hero-subtitle">{siteData.site.heroSubtitle}</p>
@@ -310,6 +342,7 @@ function App() {
               </div>
             </div>
             <div className="window-body about-body">
+              <WaterDroplets count={5} />
               <div className="about-avatar-section">
                 <div className="avatar-frame">
                   <img
@@ -391,6 +424,7 @@ function App() {
             </div>
           </div>
           <div className="window-body">
+            <WaterDroplets count={6} />
             <div className="projects-grid">
               {siteData.projects.items.map((proj) => (
                 <a
@@ -470,6 +504,7 @@ function App() {
             </div>
           </div>
           <div className="window-body">
+            <WaterDroplets count={6} />
             <div className="pokemon-grid">
               {siteData.pokemonTeam.map((poke) => (
                 <PokemonCard key={poke.id} pokemon={poke} />
@@ -495,6 +530,7 @@ function App() {
               </div>
             </div>
             <div className="window-body" id="links">
+              <WaterDroplets count={4} />
               <div className="links-grid">
                 {siteData.links.items.map((link) => (
                   <a key={link.name} className="link-button" href={link.url} target="_blank" rel="noreferrer">
@@ -549,6 +585,7 @@ function App() {
               </div>
             </div>
             <div className="window-body pet-window-body">
+              <WaterDroplets count={3} />
               <div className="pet-display">
                 <div className="pet-habitat">
                   <div className="pet-glow-aura" />
@@ -603,6 +640,7 @@ function App() {
             </div>
           </div>
           <div className="window-body">
+            <WaterDroplets count={5} />
             <p className="guestbook-tip">
               {siteData.guestbook.tip}
             </p>
