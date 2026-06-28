@@ -208,6 +208,89 @@ function WaterDroplets({ count = 8 }) {
   );
 }
 
+/* ── Static pixel NPC decorations ── */
+function StaticPageNpcs() {
+  const [activeDialogue, setActiveDialogue] = useState({
+    jennie: 0,
+    rose: 0,
+    jisoo: 0,
+    lisa: 0,
+  })
+
+  const npcs = [
+    {
+      id: 'jennie',
+      name: 'Ruby Jennie',
+      src: '/jennie-ruby-npc.png',
+      className: 'static-npc-jennie',
+      dialogue: [
+        'Ruby mode online.',
+        'This glass UI is cute.',
+        'The whole crew is here.',
+      ],
+    },
+    {
+      id: 'rose',
+      name: 'Rosé',
+      src: '/rose-npc.png',
+      className: 'static-npc-rose',
+      dialogue: [
+        'Welcome to the webring.',
+        'I found the music panel.',
+        'Jennie picked the red theme.',
+      ],
+    },
+    {
+      id: 'jisoo',
+      name: 'Earthquake Jisoo',
+      src: '/jisoo-earthquake-npc.png',
+      className: 'static-npc-jisoo',
+      dialogue: [
+        'Tiny earthquake warning.',
+        'The pixels are shaking.',
+        'Stay balanced.',
+      ],
+    },
+    {
+      id: 'lisa',
+      name: 'Rockstar Lisa',
+      src: '/lisa-rockstar-npc.png',
+      className: 'static-npc-lisa',
+      dialogue: [
+        'Rockstar mode.',
+        'White boots, loud energy.',
+        'Turn the volume up.',
+      ],
+    },
+  ]
+
+  const handleNpcClick = (id, dialogueCount) => {
+    setActiveDialogue((current) => ({
+      ...current,
+      [id]: (current[id] + 1) % dialogueCount,
+    }))
+  }
+
+  return (
+    <div className="static-npc-layer" aria-label="Pixel character NPCs">
+      {npcs.map((npc) => (
+        <button
+          key={npc.id}
+          type="button"
+          className={`static-page-npc ${npc.className}`}
+          onClick={() => handleNpcClick(npc.id, npc.dialogue.length)}
+          aria-label={`Talk to ${npc.name}`}
+        >
+          <span className="static-npc-bubble" role="status">
+            {npc.dialogue[activeDialogue[npc.id]]}
+          </span>
+          <img src={npc.src} alt="" className="static-npc-sprite" />
+        </button>
+      ))}
+    </div>
+  )
+}
+
 /* ── Main App ── */
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -276,6 +359,8 @@ function App() {
       </header>
 
       <main className="desktop">
+        <StaticPageNpcs />
+
         {/* ── Hero Banner ── */}
         <section className="window hero-window glass active" aria-labelledby="hero-title">
           <div className="title-bar">
