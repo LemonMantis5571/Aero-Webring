@@ -1837,6 +1837,19 @@ button.push-button.aero-btn.alt {
   .bp-ad-title {
     font-size: 1.1rem;
   }
+
+  .static-npc-rose .static-npc-bubble,
+  .static-npc-lisa .static-npc-bubble {
+    left: 20px;
+    transform: none;
+  }
+
+  .static-npc-jennie .static-npc-bubble,
+  .static-npc-jisoo .static-npc-bubble {
+    left: auto;
+    right: 20px;
+    transform: none;
+  }
 }
 
 @media (max-width: 640px) {
