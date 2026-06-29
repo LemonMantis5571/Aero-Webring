@@ -217,6 +217,18 @@ function StaticPageNpcs() {
     lisa: 0,
   })
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveDialogue((current) => ({
+        jennie: (current.jennie + 1) % 3,
+        rose: (current.rose + 1) % 3,
+        jisoo: (current.jisoo + 1) % 3,
+        lisa: (current.lisa + 1) % 3,
+      }))
+    }, 12000)
+    return () => clearInterval(timer)
+  }, [])
+
   const npcs = [
     {
       id: 'jennie',

@@ -147,13 +147,15 @@
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
-  pointer-events: auto;
+  pointer-events: none;
+  opacity: 0.45;
   touch-action: manipulation;
   transform: translateZ(0) rotate(var(--npc-tilt, 0deg)) scaleX(var(--npc-flip, 1));
   transform-origin: center bottom;
   transition:
     filter 180ms ease,
-    transform 180ms ease;
+    transform 180ms ease,
+    opacity 180ms ease;
 }
 
 .static-page-npc::before,
@@ -2421,4 +2423,21 @@ button.push-button.aero-btn.alt {
     0 8px 24px rgba(24, 91, 149, 0.15) !important;
 }
 
-
+@media (min-width: 1340px) {
+  .static-page-npc {
+    pointer-events: auto;
+    opacity: 0.96;
+  }
+  .static-npc-jennie {
+    right: -74px;
+  }
+  .static-npc-rose {
+    left: -74px;
+  }
+  .static-npc-jisoo {
+    right: -74px;
+  }
+  .static-npc-lisa {
+    left: -74px;
+  }
+}
