@@ -27,7 +27,7 @@ Open `http://localhost:5173`.
 
 ### Edit one file
 
-Most content is driven by [src/siteData.json](C:/Users/brite/OneDrive/Documents/Aero-Webring/src/siteData.json).
+Most content is driven by [`src/siteData.json`](src/siteData.json).
 
 That file controls:
 
@@ -57,10 +57,10 @@ Common assets:
 
 ## Project Structure
 
-- [src/App.jsx](C:/Users/brite/OneDrive/Documents/Aero-Webring/src/App.jsx): app layout and component behavior
-- [src/siteData.json](C:/Users/brite/OneDrive/Documents/Aero-Webring/src/siteData.json): editable site content
-- [src/App.css](C:/Users/brite/OneDrive/Documents/Aero-Webring/src/App.css): component styling
-- [src/index.css](C:/Users/brite/OneDrive/Documents/Aero-Webring/src/index.css): global styling and background
+- [`src/App.jsx`](src/App.jsx): app layout and component behavior
+- [`src/siteData.json`](src/siteData.json): editable site content
+- [`src/App.css`](src/App.css): component styling
+- [`src/index.css`](src/index.css): global styling and background
 
 ## Scripts
 
