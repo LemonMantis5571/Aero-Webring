@@ -166,17 +166,6 @@ function Bubbles() {
   )
 }
 
-/* ── Soft drifting clouds ── */
-function Clouds() {
-  return (
-    <div className="clouds-layer" aria-hidden="true">
-      <div className="cloud cloud-1" />
-      <div className="cloud cloud-2" />
-      <div className="cloud cloud-3" />
-    </div>
-  )
-}
-
 /* ── Water Droplets ── */
 function WaterDroplets({ count = 8 }) {
   const [drops] = useState(() =>
@@ -338,7 +327,6 @@ function App() {
   return (
     <div className="aero-shell">
       <Bubbles />
-      <Clouds />
 
       {/* Hidden background audio element */}
       <audio ref={audioRef} src={siteData.music.audioSrc} loop />
@@ -374,7 +362,7 @@ function App() {
         <StaticPageNpcs />
 
         {/* ── Hero Banner ── */}
-        <section className="window hero-window glass active" aria-labelledby="hero-title">
+        <section className="window hero-window glass active no-window-glare" aria-labelledby="hero-title">
           <div className="title-bar">
             <div className="title-bar-text" id="hero-title">
               {siteData.site.heroWindowTitle}

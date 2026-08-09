@@ -147,8 +147,8 @@
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
-  pointer-events: none;
-  opacity: 0.45;
+  pointer-events: auto;
+  opacity: 1 !important;
   touch-action: manipulation;
   transform: translateZ(0) rotate(var(--npc-tilt, 0deg)) scaleX(var(--npc-flip, 1));
   transform-origin: center bottom;
@@ -173,10 +173,8 @@
   display: block;
   object-fit: contain;
   image-rendering: pixelated;
-  opacity: 0.96;
-  filter:
-    drop-shadow(0 8px 14px rgba(10, 45, 80, 0.28))
-    drop-shadow(0 0 12px rgba(255, 255, 255, 0.72));
+  opacity: 1 !important;
+  filter: drop-shadow(0 6px 12px rgba(10, 45, 80, 0.35));
 }
 
 .static-page-npc:hover,
@@ -786,7 +784,14 @@
   min-width: 0;
 }
 
-/* ── Glass Windows Override ── */
+/* ── 7.css Root & Ultra-High Specificity Overrides ── */
+:root {
+  --w7-w-glass: none !important;
+  --w7-w-grad: none !important;
+  --w7-w-bg: transparent !important;
+}
+
+html body .window.glass,
 .window.glass {
   background: rgba(255, 255, 255, 0.28) !important;
   backdrop-filter: blur(25px) saturate(1.8) !important;
@@ -802,8 +807,54 @@
   position: relative;
 }
 
-.window.glass .title-bar {
-  border-radius: 9px 9px 0 0;
+/* Destroy 7.css window white glare gradient overlays with highest possible specificity */
+html body .window:before,
+html body .window::before,
+html body .window:after,
+html body .window::after,
+html body .window.glass:before,
+html body .window.glass::before,
+html body .window.glass:after,
+html body .window.glass::after,
+html body section.window:before,
+html body section.window::before,
+html body article.window:before,
+html body article.window::before {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+html body .window.glass > .title-bar,
+html body .window.glass .title-bar,
+html body .window > .title-bar,
+html body .window .title-bar,
+html body .title-bar {
+  border-radius: 9px 9px 0 0 !important;
+  background-image: none !important;
+  background: linear-gradient(180deg, rgba(28, 105, 160, 0.32) 0%, rgba(14, 70, 115, 0.2) 100%) !important;
+  background-attachment: scroll !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 0 rgba(0, 0, 0, 0.06) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35) !important;
+}
+
+html body .title-bar-controls {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Clear all white text-shadows and enforce dark blue crisp title text */
+html body .window.glass > .title-bar .title-bar-text,
+html body .window.glass .title-bar-text,
+html body .title-bar-text {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+  color: #052236 !important;
+  font-weight: 700 !important;
 }
 
 /* ── Float-in animation ── */
@@ -904,20 +955,11 @@ button.push-button.aero-btn {
   text-align: center;
 }
 
-/* Disable 7.css glass highlights and backgrounds on buttons using these styles */
+/* Disable 7.css's viewport-sized button glare pseudo-element. */
 .push-button.aero-btn::before,
 button.push-button.aero-btn::before {
-  content: '' !important;
-  display: block !important;
-  position: absolute;
-  top: 1px;
-  left: 5%;
-  right: 5%;
-  height: 38%;
-  border-radius: 999px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%) !important;
-  pointer-events: none;
-  opacity: 1 !important;
+  content: none !important;
+  display: none !important;
 }
 
 .push-button.aero-btn::after,
@@ -2436,21 +2478,49 @@ button.push-button.aero-btn.alt {
     0 8px 24px rgba(24, 91, 149, 0.15) !important;
 }
 
-@media (min-width: 1340px) {
+@media (min-width: 1150px) {
   .static-page-npc {
     pointer-events: auto;
-    opacity: 0.96;
+    opacity: 1 !important;
   }
   .static-npc-jennie {
-    right: -74px;
+    right: -64px;
   }
   .static-npc-rose {
-    left: -74px;
+    left: -64px;
   }
   .static-npc-jisoo {
-    right: -74px;
+    right: -64px;
   }
   .static-npc-lisa {
-    left: -74px;
+    left: -64px;
   }
+}
+
+/* Keep the hero's glass surface, but remove 7.css's viewport-sized glare layer. */
+html body .window.no-window-glare::before,
+html body .window.no-window-glare::after {
+  content: none !important;
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+html body .window.no-window-glare > .title-bar,
+html body .window.no-window-glare .title-bar {
+  background: linear-gradient(
+    180deg,
+    rgba(28, 105, 160, 0.32) 0%,
+    rgba(14, 70, 115, 0.2) 100%
+  ) !important;
+  background-image: linear-gradient(
+    180deg,
+    rgba(28, 105, 160, 0.32) 0%,
+    rgba(14, 70, 115, 0.2) 100%
+  ) !important;
+  background-attachment: scroll !important;
 }
